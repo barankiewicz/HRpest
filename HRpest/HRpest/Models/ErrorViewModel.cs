@@ -1,4 +1,4 @@
-namespace Lab2.Models
+namespace HRpest.Models
 {
 	public class ErrorViewModel
 	{

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lab2.Models;
+using HRpest.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Lab2.Controllers
+namespace HRpest.Controllers
 {
 	[Route("[controller]")]
 	public class JobOfferController : Controller

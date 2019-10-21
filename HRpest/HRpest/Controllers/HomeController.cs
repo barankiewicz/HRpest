@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Lab2.Models;
+using HRpest.Models;
 
-namespace Lab2.Controllers
+namespace HRpest.Controllers
 {
 	public class HomeController : Controller
 	{

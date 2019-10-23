@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRpest", "HRpest\HRpest.csproj", "{B357C48A-7A1A-43C7-ACCE-749BE1FF0F9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRpest", "HRpest\HRpest.csproj", "{BD37E273-FE31-487E-968B-0D02312C2799}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B357C48A-7A1A-43C7-ACCE-749BE1FF0F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B357C48A-7A1A-43C7-ACCE-749BE1FF0F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B357C48A-7A1A-43C7-ACCE-749BE1FF0F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B357C48A-7A1A-43C7-ACCE-749BE1FF0F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD37E273-FE31-487E-968B-0D02312C2799}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD37E273-FE31-487E-968B-0D02312C2799}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD37E273-FE31-487E-968B-0D02312C2799}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD37E273-FE31-487E-968B-0D02312C2799}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {35635A14-08BE-41E9-9BEF-7AE2365F79C9}
+		SolutionGuid = {AA92ADAF-0DB6-454A-9E22-498B9BE23924}
 	EndGlobalSection
 EndGlobal

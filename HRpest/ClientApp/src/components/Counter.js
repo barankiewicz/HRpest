@@ -1,31 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { actionCreators } from '../store/Counter';
 
-export class Counter extends Component {
-  static displayName = Counter.name;
+const Counter = props => (
+  <div>
+    <h1>Counter</h1>
 
-  constructor (props) {
-    super(props);
-    this.state = { currentCount: 0 };
-    this.incrementCounter = this.incrementCounter.bind(this);
-  }
+    <p>This is a simple example of a React component.</p>
 
-  incrementCounter () {
-    this.setState({
-      currentCount: this.state.currentCount + 1
-    });
-  }
+    <p>Current count: <strong>{props.count}</strong></p>
 
-  render () {
-    return (
-      <div>
-        <h1>Counter</h1>
+    <button className="btn btn-primary" onClick={props.increment}>Increment</button>
+  </div>
+);
 
-        <p>This is a simple example of a React component.</p>
-
-        <p>Current count: <strong>{this.state.currentCount}</strong></p>
-
-        <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>
-      </div>
-    );
-  }
-}
+export default connect(
+  state => state.counter,
+  dispatch => bindActionCreators(actionCreators, dispatch)
+)(Counter);

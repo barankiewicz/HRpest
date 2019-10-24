@@ -34,8 +34,7 @@ class NormalLoginForm extends React.Component {
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Please input your Password!' },
-                  { min: 6, message: 'Your username must be at least 8 characters long!' }],
+              rules: [{ required: true, message: 'Please input your Password!' }],
             })(
               <Input
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -55,7 +54,7 @@ class NormalLoginForm extends React.Component {
             <Button type="primary" htmlType="submit" className="login-form-button">
               Log in
           </Button>
-            Or <a href="">register now!</a>
+            Or <a href="/register">register now!</a>
           </Form.Item>
         </Form>
       </Row>

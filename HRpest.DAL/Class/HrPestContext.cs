@@ -14,6 +14,7 @@ namespace HRpest.DAL.Class
         public HrPestContext(DbContextOptions<HrPestContext> options) : base(options) { }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<JobOffer> JobOffers { get; set; }
+        public virtual DbSet<JobApplication> JobApplications { get; set; }
     }
 
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<HrPestContext>

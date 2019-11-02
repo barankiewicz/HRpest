@@ -7,6 +7,7 @@ namespace HRpest.BL.Model
 {
     public class JobApplication
     {
+        public int Id{ get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime EditedOn { get; set; }
         public DateTime DeletedOn { get; set; }

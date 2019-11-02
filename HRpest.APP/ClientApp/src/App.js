@@ -15,18 +15,19 @@ export default class App extends Component {
 
   render () {
     return (
-      <Router>
-          <Switch>
-            <Route path='/login' component={WrappedNormalLoginForm} />
-            <Route path='/register' component={WrappedRegistrationForm} />
-          </Switch>
-      </Router>
-      // <Layout>
-      //   <Route exact path='/' component={Home} />
-      //   <Route path='/login' component={Login} />
-      //   <Route path='/counter' component={Counter} />
-      //   <Route path='/fetch-data' component={FetchData} />
-      // </Layout>
+      // <Router>
+      //     <Switch>
+      //       <Route path='/login' component={WrappedNormalLoginForm} />
+      //       <Route path='/register' component={WrappedRegistrationForm} />
+      //     </Switch>
+      // </Router>
+      <Layout>
+        <Route exact path='/' component={Home} />
+        <Route path='/login' component={WrappedNormalLoginForm} />
+        <Route path='/counter' component={Counter} />
+        <Route path='/fetch-data' component={FetchData} />
+        <Route path='/register' component={WrappedRegistrationForm} />
+      </Layout>
     );
   }
 }

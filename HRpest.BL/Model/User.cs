@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HRpest.BL.Models
+namespace HRpest.BL.Model
 {
     public class User
     {

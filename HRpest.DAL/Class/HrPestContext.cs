@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using HRpest.BL.Models;
+using HRpest.BL.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +13,7 @@ namespace HRpest.DAL.Class
     {
         public HrPestContext(DbContextOptions<HrPestContext> options) : base(options) { }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<JobOffer> JobOffers { get; set; }
     }
 
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<HrPestContext>

@@ -12,48 +12,48 @@ namespace HRpest.APP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class JobOffersController : ControllerBase
     {
         private readonly HrPestContext _context;
 
-        public UsersController(HrPestContext context)
+        public JobOffersController(HrPestContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/JobOffers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<JobOffer>>> GetJobOffers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.JobOffers.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/JobOffers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<JobOffer>> GetJobOffer(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var jobOffer = await _context.JobOffers.FindAsync(id);
 
-            if (user == null)
+            if (jobOffer == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return jobOffer;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/JobOffers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutJobOffer(int id, JobOffer jobOffer)
         {
-            if (id != user.Id)
+            if (id != jobOffer.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(jobOffer).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace HRpest.APP.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!JobOfferExists(id))
                 {
                     return NotFound();
                 }
@@ -74,37 +74,37 @@ namespace HRpest.APP.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/JobOffers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<JobOffer>> PostJobOffer(JobOffer jobOffer)
         {
-            _context.Users.Add(user);
+            _context.JobOffers.Add(jobOffer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetJobOffer", new { id = jobOffer.Id }, jobOffer);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/JobOffers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
+        public async Task<ActionResult<JobOffer>> DeleteJobOffer(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var jobOffer = await _context.JobOffers.FindAsync(id);
+            if (jobOffer == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.JobOffers.Remove(jobOffer);
             await _context.SaveChangesAsync();
 
-            return user;
+            return jobOffer;
         }
 
-        private bool UserExists(int id)
+        private bool JobOfferExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.JobOffers.Any(e => e.Id == id);
         }
     }
 }

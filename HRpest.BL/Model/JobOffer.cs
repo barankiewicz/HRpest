@@ -8,6 +8,9 @@ namespace HRpest.BL.Model
     public class JobOffer
     {
         public int Id { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime EndedOn { get; set; }
+        public bool Active { get; set; }
         public User CreatedBy { get; set; }
 
         public EmploymentType EmploymentType { get; set; }
@@ -16,7 +19,6 @@ namespace HRpest.BL.Model
         public int RemoteHoursWeekly { get; set; }
         public int MinimumPay { get; set; }
         public int MaximumPay { get; set; }
-        public string CvHandle { get; set; }
 
         public string PositionName { get; set; }
         public string JobDescription { get; set; }

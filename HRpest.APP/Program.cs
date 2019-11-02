@@ -23,7 +23,6 @@ namespace HRpest.APP
                 try
                 {
                     var context = services.GetRequiredService<HrPestContext>();
-                    DataSeeder.Initialize(context);
                 }
                 catch (Exception)
                 {

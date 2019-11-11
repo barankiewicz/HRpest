@@ -4,60 +4,22 @@ using HRpest.DAL.Class;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRpest.DAL.Migrations
 {
     [DbContext(typeof(HrPestContext))]
-    partial class HrPestContextModelSnapshot : ModelSnapshot
+    [Migration("20191102153854_JobApplication")]
+    partial class JobApplication
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("HRpest.BL.Model.JobApplication", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AdditionalInformation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ApplicantId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ApplicationStatus")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CvHandle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("EditedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("JobOfferId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicantId");
-
-                    b.HasIndex("JobOfferId");
-
-                    b.ToTable("JobApplications");
-                });
 
             modelBuilder.Entity("HRpest.BL.Model.JobOffer", b =>
                 {
@@ -74,6 +36,9 @@ namespace HRpest.DAL.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CvHandle")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EmploymentType")
                         .HasColumnType("int");
@@ -149,17 +114,6 @@ namespace HRpest.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("HRpest.BL.Model.JobApplication", b =>
-                {
-                    b.HasOne("HRpest.BL.Model.User", "Applicant")
-                        .WithMany()
-                        .HasForeignKey("ApplicantId");
-
-                    b.HasOne("HRpest.BL.Model.JobOffer", "JobOffer")
-                        .WithMany()
-                        .HasForeignKey("JobOfferId");
                 });
 
             modelBuilder.Entity("HRpest.BL.Model.JobOffer", b =>

@@ -15,11 +15,10 @@ namespace HRpest.DAL.Class
             {
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    Active = true,
                     CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
                     CreatedOn = DateTime.Now,
                     EmploymentType = BL.Enum.EmploymentType.B2B,
-                    EndedOn = DateTime.Now.AddDays(120),
+                    ActiveUntil = DateTime.Now.AddDays(120),
                     HoursWeekly = 40,
                     JobBenefits = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
                     JobDescription = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
@@ -34,11 +33,10 @@ namespace HRpest.DAL.Class
 
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    Active = false,
                     CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
                     CreatedOn = DateTime.Now.AddDays(-3),
                     EmploymentType = BL.Enum.EmploymentType.B2B,
-                    EndedOn = DateTime.Now.AddDays(-1),
+                    ActiveUntil = DateTime.Now.AddDays(-1),
                     HoursWeekly = 40,
                     JobBenefits = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
                     JobDescription = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
@@ -53,11 +51,10 @@ namespace HRpest.DAL.Class
 
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    Active = true,
                     CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
                     CreatedOn = DateTime.Now,
                     EmploymentType = BL.Enum.EmploymentType.B2B,
-                    EndedOn = DateTime.Now.AddDays(120),
+                    ActiveUntil = DateTime.Now.AddDays(120),
                     HoursWeekly = 120,
                     JobBenefits = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
                     JobDescription = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",

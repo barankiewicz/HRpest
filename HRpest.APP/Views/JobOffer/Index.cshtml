@@ -1,0 +1,20 @@
+﻿@model IEnumerable<HRpest.BL.Model.JobOffer>
+
+@{
+    ViewData["Title"] = "Job Offer list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Job Offer list</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<ul>
+    @foreach (var item in Model.OrderBy(o => o.CreatedBy))
+    {
+        <li>@Html.ActionLink(item.PositionName, "Details", new { id = item.Id })</li>
+    }
+</ul>
+
+

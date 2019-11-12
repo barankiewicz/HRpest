@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HRpest.BL.Model;
 using HRpest.DAL.Class;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRpest.APP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JobApplicationsController : ControllerBase
+    [Authorize]
+    public class JobApplicationController : ControllerBase
     {
         private readonly HrPestContext _context;
 
-        public JobApplicationsController(HrPestContext context)
+        public JobApplicationController(HrPestContext context)
         {
             _context = context;
         }

@@ -5,16 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HRpest.BL.Model;
 using HRpest.DAL.Class;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRpest.APP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class JobOffersController : ControllerBase
+    [Authorize]
+    public class JobOfferController : Controller
     {
         private readonly HrPestContext _context;
 
-        public JobOffersController(HrPestContext context)
+        public JobOfferController(HrPestContext context)
         {
             _context = context;
         }
@@ -30,26 +32,26 @@ namespace HRpest.APP.Controllers
             return View(offer);
         }
 
-        // GET: api/JobOffers
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<JobOffer>>> GetJobOffers()
-        {
-            return await _context.JobOffers.ToListAsync();
-        }
+        //// GET: api/JobOffers
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<JobOffer>>> GetJobOffers()
+        //{
+        //    return await _context.JobOffers.ToListAsync();
+        //}
 
-        // GET: api/JobOffers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<JobOffer>> GetJobOffer(int id)
-        {
-            var jobOffer = await _context.JobOffers.FindAsync(id);
+        //// GET: api/JobOffers/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<JobOffer>> GetJobOffer(int id)
+        //{
+        //    var jobOffer = await _context.JobOffers.FindAsync(id);
 
-            if (jobOffer == null)
-            {
-                return NotFound();
-            }
+        //    if (jobOffer == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return jobOffer;
-        }
+        //    return jobOffer;
+        //}
 
         // PUT: api/JobOffers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for

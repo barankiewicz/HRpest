@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HRpest.BL.Model;
@@ -19,6 +17,17 @@ namespace HRpest.APP.Controllers
         public JobOffersController(HrPestContext context)
         {
             _context = context;
+        }
+
+        [Route("index")]
+        public IActionResult Index()
+        {
+            return View(_context.JobOffers.ToList());
+        }
+        public IActionResult Details(int id)
+        {
+            var offer = _context.JobOffers.FirstOrDefault(o => o.Id == id);
+            return View(offer);
         }
 
         // GET: api/JobOffers

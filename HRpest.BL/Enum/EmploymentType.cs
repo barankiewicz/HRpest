@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace HRpest.BL.Enum
 {
     public enum EmploymentType
     {
-        [Description("Bussiness-2-Bussiness")]
+        [Display(Name = "Bussiness-2-Bussiness")]
         B2B,
-        [Description("Umowa o Dzieło")]
+        [Display(Name = "Umowa o Dzieło")]
         UOD,
-        [Description("Umowa Zlecenie")]
+        [Display(Name = "Umowa Zlecenie")]
         UOZ,
-        [Description("Umowa o Pracę")]
-        UOP
+        [Display(Name = "Umowa o Pracę")]
+        UOP,
+        [Display(Name = "Inna")]
+        OTHER
     }
 }

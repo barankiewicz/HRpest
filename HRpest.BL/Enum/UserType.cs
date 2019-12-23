@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace HRpest.BL.Enum
 {
     public enum UserType
     {
-        [Description("Applicant")]
+        [Display(Name = "Applicant")]
         APPLICANT,
-        [Description("HR Employee")]
+        [Display(Name = "HR Employee")]
         HR,
-        [Description("Administrator")]
+        [Display(Name = "Administrator")]
         ADMIN
     }
 }

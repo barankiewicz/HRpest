@@ -1,97 +1,123 @@
-﻿@model HRpest.BL.Model.JobOffer
+﻿@using HRpest.APP.Models
+@model HRpest.BL.Model.JobOffer
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="row page-box">
+    <div class="col-sm-8">
+        <h1><b>@Model.PositionName</b></h1>
+        <br /><br />
+    </div>
+</div>
+<div class="row page-box">
+    <div class="col-sm-8">
+        @if (Model.JobDescription.Length != 0)
+        {
+            <h3><b>Job description</b></h3>
+            <div class="offer-description" id="previewMarkdown">
+                @Model.JobDescription
+            </div>
+            <br /> <br />
+        }
 
-<div>
-    <h4>JobOffer</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ActiveUntil)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ActiveUntil)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EmploymentType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmploymentType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PositionLevel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositionLevel)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.HoursWeekly)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HoursWeekly)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RemoteHoursWeekly)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RemoteHoursWeekly)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MinimumPay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MinimumPay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MaximumPay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaximumPay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PositionName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PositionName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.JobDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.JobDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsualTasks)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsualTasks)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.JobRequirements)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.JobRequirements)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.JobBenefits)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.JobBenefits)
-        </dd>
-    </dl>
+        @if (Model.JobRequirements.Length != 0)
+        {
+            <h3><b>Requirements</b></h3>
+            <div class="offer-description" id="previewMarkdown">
+                @Model.JobRequirements
+            </div>
+            <br /> <br />
+        }
+        @if (Model.UsualTasks.Length != 0)
+        {
+            <h3><b>Usual tasks</b></h3>
+            <div class="offer-description" id="previewMarkdown">
+                @Model.UsualTasks
+            </div>
+            <br /> <br />
+        }
+        @if (Model.JobBenefits.Length != 0)
+        {
+            <h3><b>Benefits</b></h3>
+            <div class="offer-description" id="previewMarkdown">
+                @Model.JobBenefits
+            </div>
+            <br /> <br />
+        }
+    </div>
+    <div class="col-sm-4">
+        <div class="offer-details">
+            <div>
+                <label><b>Company:</b></label>
+                <span>@Model.CreatedFor.Name</span>
+            </div>
+            <div>
+                <label><b>Location:</b></label>
+                <span>@Model.Location</span>
+            </div>
+            <div>
+                <label><b>Level:</b></label>
+                <span>@EnumHelper.GetDisplayName(Model.PositionLevel)</span>
+            </div>
+            <div>
+                <label><b>Employment type:</b></label>
+                <span>@EnumHelper.GetDisplayName(Model.EmploymentType)</span>
+            </div>
+            @if (Model.MinimumPay != 0 && Model.MaximumPay.HasValue)
+            {
+                <div>
+                    <label><b>Salary:</b></label>
+                    <span>@Model.MinimumPay  (PLN) - @Model.MaximumPay (PLN)</span>
+                </div>
+            }
+            @if (Model.HoursWeekly != 0)
+            {
+                <div>
+                    <label><b>Hours weekly:</b></label>
+                    <span>@Model.HoursWeekly</span>
+                </div>
+            }
+            @if (Model.RemoteHoursWeekly.HasValue)
+            {
+                <div>
+                    <label><b>Remote hours weekly:</b></label>
+                    <span>@Model.RemoteHoursWeekly</span>
+                </div>
+            }
+            @if (Model.ActiveUntil.HasValue)
+            {
+                <div>
+                    <label>Valid for another </label>
+                    <span><b>@Model.ActiveUntil.Value.Subtract(DateTime.Now).Days</b> days (until @Model.ActiveUntil)</span>
+                </div>
+            }
+            <br />
+            <br />
+            <div>
+                <label><b>Created:</b></label>
+                <span>@Model.CreatedOn </span>
+                @if (Model.CreatedBy != null)
+                {
+                    <span>by @Model.CreatedBy.Name</span>
+                }
+            </div>
+            <div>
+                <br />
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                @using (Html.BeginForm("Delete", "JobOffer", new { Model.Id }, FormMethod.Post, null, new { style = "display:inline;", @class = "btn btn-primary" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                }
+
+                @Html.AntiForgeryToken()
+                @Html.ActionLink("Apply", "Create", "JobApplication", new { id = Model.Id }, new { style = "display:inline;" })
+            </div>
+        </div>
+    </div>
+    @Html.ActionLink("Go back to Job Offers", "Index", "JobOffer", null, new { @class = "btn btn-primary" })
 </div>
-<div>
-    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
-    <a asp-action="Index">Go back to Job Offers</a> |
-</div>
+

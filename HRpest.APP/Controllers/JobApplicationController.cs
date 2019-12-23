@@ -11,10 +11,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HRpest.APP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[Action]")]
     [ApiController]
-    [Authorize]
-    public class JobApplicationController : ControllerBase
+    //[Authorize]
+    public class JobApplicationController : Controller
     {
         private readonly HrPestContext _context;
 
@@ -23,85 +23,100 @@ namespace HRpest.APP.Controllers
             _context = context;
         }
 
-        // GET: api/JobApplications
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JobApplication>>> GetJobApplications()
+        public async Task<IActionResult> Index([FromQuery(Name = "search")] string searchString)
         {
-            return await _context.JobApplications.ToListAsync();
+            if (string.IsNullOrEmpty(searchString))
+                return View(await _context.JobApplications.Include(x => x.JobOffer).ToListAsync());
+
+            List<JobApplication> searchResult = await _context.JobApplications.Include(x => x.JobOffer).Where(o => o.Applicant.Name.Contains(searchString)).ToListAsync();
+            return View(searchResult);
         }
 
-        // GET: api/JobApplications/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<JobApplication>> GetJobApplication(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            var jobApplication = await _context.JobApplications.FindAsync(id);
-
-            if (jobApplication == null)
+            if (id == null)
             {
-                return NotFound();
+                return BadRequest($"id shouldn't not be null");
+            }
+            var offer = await _context.JobApplications.Include(x => x.JobOffer).FirstOrDefaultAsync(x => x.Id == id.Value);
+            if (offer == null)
+            {
+                return NotFound($"offer not found in DB");
             }
 
-            return jobApplication;
+            return View(offer);
         }
 
-        // PUT: api/JobApplications/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutJobApplication(int id, JobApplication jobApplication)
-        {
-            if (id != jobApplication.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(jobApplication).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!JobApplicationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/JobApplications
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<JobApplication>> PostJobApplication(JobApplication jobApplication)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([FromForm]JobApplication model)
         {
-            _context.JobApplications.Add(jobApplication);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetJobApplication", new { id = jobApplication.Id }, jobApplication);
-        }
-
-        // DELETE: api/JobApplications/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<JobApplication>> DeleteJobApplication(int id)
-        {
-            var jobApplication = await _context.JobApplications.FindAsync(id);
-            if (jobApplication == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return View();
             }
 
-            _context.JobApplications.Remove(jobApplication);
+            var application = await _context.JobApplications.Include(x => x.JobOffer).FirstOrDefaultAsync(x => x.Id == model.Id);
+            
+            _context.Update(application);
             await _context.SaveChangesAsync();
+            return RedirectToAction("Details", new { id = model.Id });
+        }
 
-            return jobApplication;
+        [HttpPost]
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest($"id should not be null");
+            }
+
+            _context.JobApplications.Remove(new JobApplication() { Id = id.Value });
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> Create(int id)
+        {
+            var model = new JobApplication()
+            {
+                JobOffer = _context.JobOffers.FirstOrDefault(x => x.Id == id)
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([FromForm]JobApplication model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            JobApplication ja = new JobApplication
+            {
+                AdditionalInformation = model.AdditionalInformation,
+                Applicant = model.Applicant,
+                ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
+                CreatedOn = DateTime.Now,
+                CvHandle = model.CvHandle,
+                DeletedOn = null,
+                EditedOn = DateTime.Now,
+                JobOffer = model.JobOffer
+            };
+
+            await _context.JobApplications.AddAsync(ja);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var offer = await _context.JobApplications.Include(x => x.JobOffer).FirstOrDefaultAsync(x => x.Id == id);
+            return View(offer);
         }
 
         private bool JobApplicationExists(int id)

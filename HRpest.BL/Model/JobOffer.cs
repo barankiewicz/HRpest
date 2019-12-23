@@ -9,6 +9,8 @@ namespace HRpest.BL.Model
     {
         public int Id { get; set; }
         [Display(Name = "Created On")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyy-MM-dd}")]
         public DateTime CreatedOn { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyy-MM-dd}")]
@@ -17,6 +19,7 @@ namespace HRpest.BL.Model
         [Display(Name = "Created By")]
         public User? CreatedBy { get; set; }
 
+        public Company? CreatedFor { get; set; }
         [Display(Name = "Employment Type")]
         [Required]
         public EmploymentType EmploymentType { get; set; }
@@ -37,6 +40,8 @@ namespace HRpest.BL.Model
         [Display(Name = "Job Title")]
         [Required]
         public string PositionName { get; set; }
+
+        public string Location { get; set; }
         [Display(Name = "Job Description")]
         [Required]
         public string JobDescription { get; set; }

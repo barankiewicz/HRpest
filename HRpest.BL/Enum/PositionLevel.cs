@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace HRpest.BL.Enum
 {
     public enum PositionLevel
     {
-        [Description("Entry level")]
+        [Display(Name = "Entry level")]
         ENTRY_LEVEL,
-        [Description("Internship")]
+        [Display(Name = "Internship")]
         INTERNSHIP,
-        [Description("Junior")]
+        [Display(Name = "Junior")]
         JUNIOR,
-        [Description("Mid")]
+        [Display(Name = "Mid")]
         MID,
-        [Description("Senior")]
+        [Display(Name = "Senior")]
         SENIOR
     }
 }

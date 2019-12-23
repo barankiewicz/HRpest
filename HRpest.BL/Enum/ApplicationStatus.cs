@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace HRpest.BL.Enum
 {
     public enum ApplicationStatus
     {
-        [Description("No decision made yet")]
+        [Display(Name = "No decision made yet")]
         NO_DECISION_MADE,
-        [Description("Application approved!")]
+        [Display(Name = "Application approved!")]
         APPROVED,
-        [Description("Application denied :(")]
+        [Display(Name = "Application denied :(")]
         REJECTED
     }
 }

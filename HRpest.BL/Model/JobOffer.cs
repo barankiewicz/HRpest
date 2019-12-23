@@ -12,6 +12,12 @@ namespace HRpest.BL.Model
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyy-MM-dd}")]
         public DateTime CreatedOn { get; set; }
+
+        [Display(Name = "Edited On")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyy-MM-dd}")]
+        public DateTime? EditedOn { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyy-MM-dd}")]
         [Display(Name = "Active Until")]

@@ -60,6 +60,8 @@ namespace HRpest.APP
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            
         }
     }
 }

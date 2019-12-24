@@ -85,9 +85,12 @@ namespace HRpest.APP.Controllers
             }
             var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == id.Value);
 
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Name == "Filip");
+
             var model = new JobApplication()
             {
-                JobOffer = offer
+                JobOffer = offer,
+                Applicant = user
             };
 
             if (offer == null)

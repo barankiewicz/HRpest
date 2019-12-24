@@ -8,12 +8,13 @@
 
 <h1>Edit</h1>
 
-<h4>JobOffer</h4>
+<h4>Job Offer</h4>
 <hr />
 <div class="row">
     <div class="col-sm-12">
         <form asp-action="Edit" asp-route-extra="id">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group" hidden>
                 <input asp-for="Id" class="form-control" hidden />
             </div>

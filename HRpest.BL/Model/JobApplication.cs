@@ -6,6 +6,7 @@ namespace HRpest.BL.Model
 {
     public class JobApplication
     {
+        [Key]
         public int Id{ get; set; }
         [Required]
         public DateTime CreatedOn { get; set; }
@@ -19,11 +20,11 @@ namespace HRpest.BL.Model
         [Display(Name = "Deleted on:")]
         public DateTime? DeletedOn { get; set; }
 
-        [Required]
+   
         public User Applicant { get; set; }
-        [Required]
+
         public JobOffer JobOffer { get; set; }
-        [Required]
+        
         public ApplicationStatus ApplicationStatus { get; set; }
 
         public string CvHandle { get; set; }

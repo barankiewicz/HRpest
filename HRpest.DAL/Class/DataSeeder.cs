@@ -8,6 +8,15 @@ namespace HRpest.DAL.Class
 {
     static public class DataSeeder
     {
+        public static void DeleteEverything(HrPestContext context)
+        {
+            context.JobApplications.RemoveRange(context.JobApplications.Where(x => x.JobOffer != null));
+            context.JobOffers.RemoveRange(context.JobOffers.Where(x => x.Id != null));
+            context.Companies.RemoveRange(context.Companies.Where(x => x.CreatedOn != null));
+            context.Users.RemoveRange(context.Users.Where(x => x.Id != null));
+            context.SaveChanges();
+        }
+
         public static void DeleteJobOffers(HrPestContext context)
         {
             context.JobApplications.RemoveRange(context.JobApplications.Where(x => x.JobOffer != null));
@@ -21,13 +30,30 @@ namespace HRpest.DAL.Class
             context.Companies.RemoveRange(context.Companies.Where(x => x.CreatedOn != null));
             context.SaveChanges();
         }
+
+        public static void DeleteUsers(HrPestContext context)
+        {
+            context.JobApplications.RemoveRange(context.JobApplications.Where(x => x.Id != null));
+            context.Users.RemoveRange(context.Users.Where(x => x.Id != null));
+            context.SaveChanges();
+        }
+
+        public static void AddEverything(HrPestContext context)
+        {
+            AddUsers(context);
+            AddCompanies(context);
+            context.SaveChanges();
+            AddJobOffers(context);
+            context.SaveChanges();
+        }
+
         public static void AddJobOffers(HrPestContext context)
         {
             if(context.JobOffers.Count() <= 1)
             {
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
+                    CreatedBy = context.Users.Where(u=>u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
                     CreatedOn = DateTime.Now,
                     CreatedFor = context.Companies.Where(x=> x.Name == "Google").FirstOrDefault(),
                     Location = "Warsaw",
@@ -47,7 +73,7 @@ namespace HRpest.DAL.Class
 
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
+                    CreatedBy = context.Users.Where(u => u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
                     CreatedOn = DateTime.Now.AddDays(-3),
                     EmploymentType = BL.Enum.EmploymentType.B2B,
                     ActiveUntil = DateTime.Now.AddDays(-1),
@@ -67,7 +93,7 @@ namespace HRpest.DAL.Class
 
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
+                    CreatedBy = context.Users.Where(u => u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
                     CreatedOn = DateTime.Now,
                     EmploymentType = BL.Enum.EmploymentType.B2B,
                     ActiveUntil = DateTime.Now.AddDays(120),
@@ -84,8 +110,6 @@ namespace HRpest.DAL.Class
                     RemoteHoursWeekly = 8,
                     UsualTasks = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam"
                 });
-
-                context.SaveChanges();
             }
         }
 
@@ -110,8 +134,29 @@ namespace HRpest.DAL.Class
                     CreatedOn = DateTime.Now,
                     Name = "Intel"
                 });
+            }
+        }
 
-                context.SaveChanges();
+        public static void AddUsers(HrPestContext context)
+        {
+            if (context.Users.Count() <= 1)
+            {
+                context.Users.Add(new BL.Model.User
+                {
+                    EmailAddress = "costam@costam.pl",
+                    Name = "Filip",
+                    Surname = "Doe",
+                    UserType = BL.Enum.UserType.APPLICANT,
+                    GithubAccount = "spankie1337"
+                });
+
+                context.Users.Add(new BL.Model.User
+                {
+                    EmailAddress = "costam@costam.pl",
+                    Name = "Jane",
+                    Surname = "Doe",
+                    UserType = BL.Enum.UserType.HR
+                });
             }
         }
     }

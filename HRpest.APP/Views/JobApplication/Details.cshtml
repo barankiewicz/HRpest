@@ -1,0 +1,72 @@
+﻿@model HRpest.BL.Model.JobApplication
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row page-box">
+    <div class="col-sm-8">
+        <h1><b>Application details</b></h1>
+        <br /><br />
+    </div>
+</div>
+<div class="row page-box">
+    <div class="col-sm-8">
+
+            <h3><b>Additional information</b></h3>
+            <div class="offer-description" id="previewMarkdown">
+                @Model.AdditionalInformation
+            </div>
+            <br /> <br />
+    </div>
+    <div class="col-sm-4">
+        <div class="offer-details">
+            <div>
+                <label><b>Applicant:</b></label>
+                <span>@Model.Applicant.FullName</span>
+            </div>
+            <div>
+                <label><b>Position:</b></label>
+                <span>@Model.JobOffer.PositionName</span>
+            </div>
+            <div>
+                <label><b>Company:</b></label>
+                <span>@Model.JobOffer.CreatedFor.Name</span>
+            </div>
+            <div>
+                <label><b>Location:</b></label>
+                <span>@Model.JobOffer.Location</span>
+            </div>
+            <div>
+                <label><b>Status:</b></label>
+                <span>@EnumHelper.GetDisplayName(Model.ApplicationStatus)</span>
+            </div>
+            <div>
+                <label><b>CV:</b></label>
+                <span>@Model.CvHandle</span>
+            </div>
+
+            <br />
+            <br />
+            <div>
+                <label><b>Created:</b></label>
+                <span>@Model.CreatedOn </span>
+            </div>
+            <div>
+                <label><b>Edited:</b></label>
+                <span>@Model.EditedOn </span>
+            </div>
+            <div>
+                <br />
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                @using (Html.BeginForm("Delete", "JobApplication", new { Model.Id }, FormMethod.Post, null, new { style = "display:inline;" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                }
+            </div>
+        </div>
+    </div>
+    @Html.ActionLink("Go back to Job Offers", "Index", "JobOffer", null, new { @class = "btn btn-primary" })
+</div>

@@ -107,14 +107,14 @@
             <div>
                 <br />
                 @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
-                @using (Html.BeginForm("Delete", "JobOffer", new { Model.Id }, FormMethod.Post, null, new { style = "display:inline;", @class = "btn btn-primary" }))
+                @using (Html.BeginForm("Delete", "JobOffer", new { Model.Id }, FormMethod.Post, null, new { style = "display:inline;"}))
                 {
                     @Html.AntiForgeryToken()
                     <button type="submit" class="btn btn-danger">Delete</button>
                 }
 
                 @Html.AntiForgeryToken()
-                @Html.ActionLink("Apply", "Create", "JobApplication", new { id = Model.Id }, new { style = "display:inline;" })
+                @Html.ActionLink("Apply", "Create", "JobApplication", new { id = Model.Id }, new {  @class = "btn btn-primary" })
             </div>
         </div>
     </div>

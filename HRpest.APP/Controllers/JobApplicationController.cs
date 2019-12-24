@@ -77,12 +77,23 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> Create(int id)
+        public async Task<ActionResult> Create(int? id)
         {
+            if (id == null)
+            {
+                return BadRequest($"id shouldn't not be null");
+            }
+            var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == id.Value);
+
             var model = new JobApplication()
             {
-                JobOffer = _context.JobOffers.FirstOrDefault(x => x.Id == id)
+                JobOffer = offer
             };
+
+            if (offer == null)
+            {
+                return NotFound($"offer not found in DB");
+            }
 
             return View(model);
         }

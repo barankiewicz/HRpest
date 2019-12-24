@@ -39,6 +39,7 @@ namespace HRpest.APP.Controllers
                 return BadRequest($"id shouldn't not be null");
             }
             var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == id.Value);
+
             if (offer == null)
             {
                 return NotFound($"offer not found in DB");
@@ -57,7 +58,22 @@ namespace HRpest.APP.Controllers
             }
 
             var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            offer.ActiveUntil = model.ActiveUntil;
+            offer.EmploymentType = model.EmploymentType;
+            offer.HoursWeekly = model.HoursWeekly;
+            offer.JobBenefits = model.JobBenefits;
+            offer.JobDescription = model.JobDescription;
+            offer.JobRequirements = model.JobRequirements;
+            offer.MaximumPay = model.MaximumPay;
+            offer.MinimumPay = model.MinimumPay;
+            offer.PositionLevel = model.PositionLevel;
             offer.PositionName = model.PositionName;
+            offer.RemoteHoursWeekly = model.RemoteHoursWeekly;
+            offer.UsualTasks = model.UsualTasks;
+            offer.Location = model.Location;
+
+            offer.EditedOn = DateTime.Now;
             _context.Update(offer);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", new { id = model.Id });
@@ -99,9 +115,10 @@ namespace HRpest.APP.Controllers
             JobOffer jo = new JobOffer
             {
                 ActiveUntil = model.ActiveUntil,
-                CreatedFor = _context.Companies.FirstOrDefault(x=>x.Name == model.CompanyName),
+                CreatedFor = _context.Companies.FirstOrDefault(x => x.Name == model.CompanyName),
                 CreatedBy = model.CreatedBy,
                 CreatedOn = DateTime.Now,
+                EditedOn = DateTime.Now,
                 EmploymentType = model.EmploymentType,
                 HoursWeekly = model.HoursWeekly,
                 JobBenefits = model.JobBenefits,

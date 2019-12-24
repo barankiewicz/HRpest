@@ -4,6 +4,7 @@ using System.Text;
 
 namespace HRpest.BL.Model
 {
+
     public class JobOfferCreateView : JobOffer
     {
         public IEnumerable<Company> Companies { get; set; }

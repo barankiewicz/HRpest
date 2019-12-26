@@ -27,9 +27,9 @@ namespace HRpest.APP.Controllers
         public async Task<IActionResult> Index([FromQuery(Name = "search")] string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
-                return View(await _context.JobApplications.Include(x => x.JobOffer).ToListAsync());
+                return View(await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x => x.Applicant).ToListAsync());
 
-            List<JobApplication> searchResult = await _context.JobApplications.Include(x => x.JobOffer).Where(o => o.Applicant.Name.Contains(searchString)).ToListAsync();
+            List<JobApplication> searchResult = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x=>x.Applicant).Where(o => o.Applicant.Name.Contains(searchString)).ToListAsync();
             return View(searchResult);
         }
 
@@ -39,13 +39,13 @@ namespace HRpest.APP.Controllers
             {
                 return BadRequest($"id shouldn't not be null");
             }
-            var offer = await _context.JobApplications.Include(x => x.JobOffer).FirstOrDefaultAsync(x => x.Id == id.Value);
-            if (offer == null)
+            var application = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x => x.Applicant).FirstOrDefaultAsync(x => x.Id == id.Value);
+            if (application == null)
             {
                 return NotFound($"offer not found in DB");
             }
 
-            return View(offer);
+            return View(application);
         }
 
         [HttpPost]
@@ -57,14 +57,18 @@ namespace HRpest.APP.Controllers
                 return View();
             }
 
-            var application = await _context.JobApplications.Include(x => x.JobOffer).FirstOrDefaultAsync(x => x.Id == model.Id);
-            
+            var application = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x => x.Applicant).FirstOrDefaultAsync(x => x.Id == model.Id);
+
+            application.CvHandle = model.CvHandle;
+            application.AdditionalInformation = model.AdditionalInformation;
+            application.ApplicationStatus = model.ApplicationStatus;
+            application.EditedOn = DateTime.Now;
+
             _context.Update(application);
             await _context.SaveChangesAsync();
             return RedirectToAction("Details", new { id = model.Id });
         }
 
-        [HttpPost]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -85,12 +89,10 @@ namespace HRpest.APP.Controllers
             }
             var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == id.Value);
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Name == "Filip");
-
-            var model = new JobApplication()
+            var model = new JobApplicationCreateView()
             {
                 JobOffer = offer,
-                Applicant = user
+                JobOfferId = offer.Id
             };
 
             if (offer == null)
@@ -103,23 +105,31 @@ namespace HRpest.APP.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([FromForm]JobApplication model)
+        public async Task<ActionResult> Create([FromForm]JobApplicationCreateView model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Name == "Filip");
+            var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == model.JobOfferId);
+
+            if (offer == null)
+            {
+                return NotFound($"offer not found in DB");
+            }
+
             JobApplication ja = new JobApplication
             {
                 AdditionalInformation = model.AdditionalInformation,
-                Applicant = model.Applicant,
+                Applicant = user,
                 ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
                 CreatedOn = DateTime.Now,
                 CvHandle = model.CvHandle,
                 DeletedOn = null,
                 EditedOn = DateTime.Now,
-                JobOffer = model.JobOffer
+                JobOffer = offer
             };
 
             await _context.JobApplications.AddAsync(ja);
@@ -129,7 +139,7 @@ namespace HRpest.APP.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var offer = await _context.JobApplications.Include(x => x.JobOffer).FirstOrDefaultAsync(x => x.Id == id);
+            var offer = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x=>x.CreatedFor).Include(x => x.Applicant).FirstOrDefaultAsync(x => x.Id == id);
             return View(offer);
         }
 

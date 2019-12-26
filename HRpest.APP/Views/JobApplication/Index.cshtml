@@ -25,33 +25,37 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Applicant.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedOn)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EditedOn)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => EnumHelper.GetDisplayName(item.ApplicationStatus))
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CvHandle)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AdditionalInformation)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Applicant.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedOn)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EditedOn)
+                        </td>
+                        <td>
+                            @{
+                                string appStatus = EnumHelper.GetDisplayName(item.ApplicationStatus);
+                            }
+                            @Html.DisplayFor(modelItem => appStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CvHandle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AdditionalInformation)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
+        @Html.ActionLink("Back to Job Offers", "Index", "JobOffer", null, new { @class = "btn btn-primary" })
     </div>
 </div>

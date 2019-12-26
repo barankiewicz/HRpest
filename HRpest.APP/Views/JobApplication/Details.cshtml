@@ -60,11 +60,7 @@
             <div>
                 <br />
                 @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
-                @using (Html.BeginForm("Delete", "JobApplication", new { Model.Id }, FormMethod.Post, null, new { style = "display:inline;" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                }
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger" })
             </div>
         </div>
     </div>

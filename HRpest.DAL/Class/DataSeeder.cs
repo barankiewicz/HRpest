@@ -8,18 +8,57 @@ namespace HRpest.DAL.Class
 {
     static public class DataSeeder
     {
+        public static void DeleteEverything(HrPestContext context)
+        {
+            context.JobApplications.RemoveRange(context.JobApplications.Where(x => x.JobOffer != null));
+            context.JobOffers.RemoveRange(context.JobOffers.Where(x => x.Id != null));
+            context.Companies.RemoveRange(context.Companies.Where(x => x.CreatedOn != null));
+            context.Users.RemoveRange(context.Users.Where(x => x.Id != null));
+            context.SaveChanges();
+        }
+
+        public static void DeleteJobOffers(HrPestContext context)
+        {
+            context.JobApplications.RemoveRange(context.JobApplications.Where(x => x.JobOffer != null));
+            context.JobOffers.RemoveRange(context.JobOffers.Where(x=> x.Id != null));
+            context.SaveChanges();
+        }
+
+        public static void DeleteCompanies (HrPestContext context)
+        {
+            
+            context.Companies.RemoveRange(context.Companies.Where(x => x.CreatedOn != null));
+            context.SaveChanges();
+        }
+
+        public static void DeleteUsers(HrPestContext context)
+        {
+            context.JobApplications.RemoveRange(context.JobApplications.Where(x => x.Id != null));
+            context.Users.RemoveRange(context.Users.Where(x => x.Id != null));
+            context.SaveChanges();
+        }
+
+        public static void AddEverything(HrPestContext context)
+        {
+            AddUsers(context);
+            AddCompanies(context);
+            context.SaveChanges();
+            AddJobOffers(context);
+            context.SaveChanges();
+        }
+
         public static void AddJobOffers(HrPestContext context)
         {
-
             if(context.JobOffers.Count() <= 1)
             {
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    Active = true,
-                    CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
+                    CreatedBy = context.Users.Where(u=>u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
                     CreatedOn = DateTime.Now,
+                    CreatedFor = context.Companies.Where(x=> x.Name == "Google").FirstOrDefault(),
+                    Location = "Warsaw",
                     EmploymentType = BL.Enum.EmploymentType.B2B,
-                    EndedOn = DateTime.Now.AddDays(120),
+                    ActiveUntil = DateTime.Now.AddDays(120),
                     HoursWeekly = 40,
                     JobBenefits = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
                     JobDescription = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
@@ -34,12 +73,13 @@ namespace HRpest.DAL.Class
 
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    Active = false,
-                    CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
+                    CreatedBy = context.Users.Where(u => u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
                     CreatedOn = DateTime.Now.AddDays(-3),
                     EmploymentType = BL.Enum.EmploymentType.B2B,
-                    EndedOn = DateTime.Now.AddDays(-1),
+                    ActiveUntil = DateTime.Now.AddDays(-1),
                     HoursWeekly = 40,
+                    CreatedFor = context.Companies.Where(x => x.Name == "Google").FirstOrDefault(),
+                    Location = "Warsaw",
                     JobBenefits = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
                     JobDescription = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
                     JobRequirements = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
@@ -53,12 +93,13 @@ namespace HRpest.DAL.Class
 
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
-                    Active = true,
-                    CreatedBy = context.Users.First((User u) => u.UserType == BL.Enum.UserType.HR),
+                    CreatedBy = context.Users.Where(u => u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
                     CreatedOn = DateTime.Now,
                     EmploymentType = BL.Enum.EmploymentType.B2B,
-                    EndedOn = DateTime.Now.AddDays(120),
+                    ActiveUntil = DateTime.Now.AddDays(120),
                     HoursWeekly = 120,
+                    CreatedFor = context.Companies.Where(x => x.Name == "Google").FirstOrDefault(),
+                    Location = "Warsaw",
                     JobBenefits = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
                     JobDescription = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
                     JobRequirements = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam",
@@ -69,11 +110,54 @@ namespace HRpest.DAL.Class
                     RemoteHoursWeekly = 8,
                     UsualTasks = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam"
                 });
-
-                context.SaveChanges();
             }
         }
 
-        
+        public static void AddCompanies(HrPestContext context)
+        {
+            if (context.Companies.Count() <= 1)
+            {
+                context.Companies.Add(new BL.Model.Company
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Google"
+                });
+
+                context.Companies.Add(new BL.Model.Company
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Microsoft"
+                });
+
+                context.Companies.Add(new BL.Model.Company
+                {
+                    CreatedOn = DateTime.Now,
+                    Name = "Intel"
+                });
+            }
+        }
+
+        public static void AddUsers(HrPestContext context)
+        {
+            if (context.Users.Count() <= 1)
+            {
+                context.Users.Add(new BL.Model.User
+                {
+                    EmailAddress = "costam@costam.pl",
+                    Name = "Filip",
+                    Surname = "Doe",
+                    UserType = BL.Enum.UserType.APPLICANT,
+                    GithubAccount = "spankie1337"
+                });
+
+                context.Users.Add(new BL.Model.User
+                {
+                    EmailAddress = "costam@costam.pl",
+                    Name = "Jane",
+                    Surname = "Doe",
+                    UserType = BL.Enum.UserType.HR
+                });
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRpest.DAL", "HRpest.DAL\HR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRpest.BL", "HRpest.BL\HRpest.BL.csproj", "{198D5412-8DEF-4D51-BA27-B94BE1F7187E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRpest.APP", "HRpest.APP\HRpest.APP.csproj", "{376C7EAB-36E9-47FD-9F9E-7A23AE62FC7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HRpest.APP", "HRpest.APP\HRpest.APP.csproj", "{376C7EAB-36E9-47FD-9F9E-7A23AE62FC7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

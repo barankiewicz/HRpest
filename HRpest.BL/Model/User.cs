@@ -9,11 +9,12 @@ namespace HRpest.BL.Model
     {
         public int Id { get; set; }
         public string EmailAddress { get; set; }
-        public string Password { get; set; }
+        //public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string PhoneNumber { get; set; }
-        public string GithubAccount { get; set; }
+        public string FullName { get { return Name + " " + Surname; } }
+        public string? PhoneNumber { get; set; }
+        public string? GithubAccount { get; set; }
         public UserType UserType { get; set; }
     }
 }

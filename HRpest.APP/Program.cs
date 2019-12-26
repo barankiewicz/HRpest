@@ -18,7 +18,8 @@ namespace HRpest.APP
                 try
                 {
                     var context = services.GetRequiredService<HrPestContext>();
-                    DataSeeder.AddJobOffers(context);
+                    DataSeeder.DeleteEverything(context);
+                    DataSeeder.AddEverything(context);
                 }
                 catch (Exception)
                 {

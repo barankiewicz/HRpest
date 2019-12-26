@@ -1,0 +1,100 @@
+﻿@using HRpest.BL.Enum
+@model HRpest.BL.Model.JobOffer
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Job Offer</h4>
+<hr />
+<div class="row">
+    <div class="col-sm-12">
+        <form asp-action="Edit" asp-route-extra="id">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group" hidden>
+                <input asp-for="Id" class="form-control" hidden />
+            </div>
+            <div class="form-group">
+                <label asp-for="ActiveUntil" class="control-label"></label>
+                <input asp-for="ActiveUntil" class="form-control" />
+                <span asp-validation-for="ActiveUntil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EmploymentType" class="control-label"></label>
+                <select asp-for="EmploymentType" asp-items="Html.GetEnumSelectList<EmploymentType>()" class="form-control"></select>
+                <span asp-validation-for="EmploymentType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionLevel" class="control-label"></label>
+                <select asp-for="PositionLevel" asp-items="Html.GetEnumSelectList<PositionLevel>()" class="form-control"></select>
+                <span asp-validation-for="PositionLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoursWeekly" class="control-label"></label>
+                <input asp-for="HoursWeekly" class="form-control" />
+                <span asp-validation-for="HoursWeekly" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RemoteHoursWeekly" class="control-label"></label>
+                <input asp-for="RemoteHoursWeekly" class="form-control" />
+                <span asp-validation-for="RemoteHoursWeekly" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinimumPay" class="control-label"></label>
+                <input asp-for="MinimumPay" class="form-control" />
+                <span asp-validation-for="MinimumPay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaximumPay" class="control-label"></label>
+                <input asp-for="MaximumPay" class="form-control" />
+                <span asp-validation-for="MaximumPay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PositionName" class="control-label"></label>
+                <input asp-for="PositionName" class="form-control" />
+                <span asp-validation-for="PositionName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobDescription" class="control-label"></label>
+                <input asp-for="JobDescription" class="form-control" />
+                <span asp-validation-for="JobDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UsualTasks" class="control-label"></label>
+                <input asp-for="UsualTasks" class="form-control" />
+                <span asp-validation-for="UsualTasks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobRequirements" class="control-label"></label>
+                <input asp-for="JobRequirements" class="form-control" />
+                <span asp-validation-for="JobRequirements" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobBenefits" class="control-label"></label>
+                <input asp-for="JobBenefits" class="form-control" />
+                <span asp-validation-for="JobBenefits" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to details", "Details", new { id = Model.Id }, new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

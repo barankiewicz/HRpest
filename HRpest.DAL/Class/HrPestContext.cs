@@ -15,6 +15,7 @@ namespace HRpest.DAL.Class
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<JobOffer> JobOffers { get; set; }
         public virtual DbSet<JobApplication> JobApplications { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
     }
 
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<HrPestContext>

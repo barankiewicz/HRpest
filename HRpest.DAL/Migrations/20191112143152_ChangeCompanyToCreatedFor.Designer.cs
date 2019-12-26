@@ -4,14 +4,16 @@ using HRpest.DAL.Class;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRpest.DAL.Migrations
 {
     [DbContext(typeof(HrPestContext))]
-    partial class HrPestContextModelSnapshot : ModelSnapshot
+    [Migration("20191112143152_ChangeCompanyToCreatedFor")]
+    partial class ChangeCompanyToCreatedFor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,9 +99,6 @@ namespace HRpest.DAL.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("EditedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("EmploymentType")
                         .HasColumnType("int");
 
@@ -114,9 +113,6 @@ namespace HRpest.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobRequirements")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MaximumPay")

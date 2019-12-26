@@ -4,39 +4,22 @@ using HRpest.DAL.Class;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRpest.DAL.Migrations
 {
     [DbContext(typeof(HrPestContext))]
-    partial class HrPestContextModelSnapshot : ModelSnapshot
+    [Migration("20191112104613_JobApplicationAndJobOfferEdit")]
+    partial class JobApplicationAndJobOfferEdit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("HRpest.BL.Model.Company", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Companies");
-                });
 
             modelBuilder.Entity("HRpest.BL.Model.JobApplication", b =>
                 {
@@ -91,13 +74,7 @@ namespace HRpest.DAL.Migrations
                     b.Property<int?>("CreatedById")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CreatedForId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("EditedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EmploymentType")
@@ -114,9 +91,6 @@ namespace HRpest.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobRequirements")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MaximumPay")
@@ -141,8 +115,6 @@ namespace HRpest.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
-
-                    b.HasIndex("CreatedForId");
 
                     b.ToTable("JobOffers");
                 });
@@ -200,10 +172,6 @@ namespace HRpest.DAL.Migrations
                     b.HasOne("HRpest.BL.Model.User", "CreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedById");
-
-                    b.HasOne("HRpest.BL.Model.Company", "CreatedFor")
-                        .WithMany()
-                        .HasForeignKey("CreatedForId");
                 });
 #pragma warning restore 612, 618
         }

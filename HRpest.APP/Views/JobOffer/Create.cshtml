@@ -51,12 +51,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="MinimumPay" class="control-label"></label>
-                <input asp-for="MinimumPay" class="form-control" />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="salary1">PLN</span>
+                    </div>
+                    @Html.EditorFor(m => m.MinimumPay, new { htmlAttributes = new { @class = "form-control", placeholder = "From" } })
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
                 <span asp-validation-for="MinimumPay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MaximumPay" class="control-label"></label>
-                <input asp-for="MaximumPay" class="form-control" />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="salary1">PLN</span>
+                    </div>
+                    @Html.EditorFor(m => m.MaximumPay, new { htmlAttributes = new { @class = "form-control", placeholder = "From" } })
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
                 <span asp-validation-for="MaximumPay" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,22 +82,22 @@
             </div>
             <div class="form-group">
                 <label asp-for="JobDescription" class="control-label"></label>
-                <input asp-for="JobDescription" class="form-control" />
+                <textarea asp-for="JobDescription" class="form-control"></textarea>
                 <span asp-validation-for="JobDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UsualTasks" class="control-label"></label>
-                <input asp-for="UsualTasks" class="form-control" />
+                <textarea asp-for="UsualTasks" class="form-control"></textarea>
                 <span asp-validation-for="UsualTasks" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="JobRequirements" class="control-label"></label>
-                <input asp-for="JobRequirements" class="form-control" />
+                <textarea asp-for="JobRequirements" class="form-control"></textarea>
                 <span asp-validation-for="JobRequirements" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="JobBenefits" class="control-label"></label>
-                <input asp-for="JobBenefits" class="form-control" />
+                <textarea asp-for="JobBenefits" class="form-control"></textarea>
                 <span asp-validation-for="JobBenefits" class="text-danger"></span>
             </div>
             <div class="form-group">

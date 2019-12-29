@@ -33,6 +33,7 @@ namespace HRpest.APP.Controllers
             return View(searchResult);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -69,6 +70,7 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Details", new { id = model.Id });
         }
 
+        [HttpPost]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -81,6 +83,7 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public async Task<ActionResult> Create(int? id)
         {
             if (id == null)
@@ -137,6 +140,7 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var offer = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x=>x.CreatedFor).Include(x => x.Applicant).FirstOrDefaultAsync(x => x.Id == id);
@@ -167,19 +171,6 @@ namespace HRpest.APP.Controllers
             return empData;
         }
 
-        // GET: JobApplication/GetJobApplications?jobOfferId=5
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<JobApplication>>> GetJobApplications([FromQuery]int jobOfferId, [FromQuery]string name = null)
-        //{
-        //    if (jobOfferId == 0) return null;
-        //    var jobapps = await _context.JobApplications.Include(x => x.Applicant).Include(x => x.JobOffer).Where(x => x.JobOffer.Id == jobOfferId).ToListAsync();
-
-        //    if (name == null)
-        //        return jobapps;
-        //    else
-        //        return Ok(jobapps.Where(x => x.Applicant.FullName.ToLower().Contains(name.ToLower())));
-        //}
-
         // GET: JobApplication/GetJobApplication/5
         [HttpGet("{id}")]
         public async Task<ActionResult<JobApplication>> GetJobApplication(int id)
@@ -194,9 +185,5 @@ namespace HRpest.APP.Controllers
             return Ok(jobApplication);
         }
 
-        private bool JobApplicationExists(int id)
-        {
-            return _context.JobApplications.Any(e => e.Id == id);
-        }
     }
 }

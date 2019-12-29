@@ -32,6 +32,7 @@ namespace HRpest.APP.Controllers
             return View(searchResult);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,6 +93,7 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public async Task<ActionResult> Create()
         {
             var model = new JobOfferCreateView
@@ -138,15 +140,12 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == id);
             return View(offer);
         }
 
-        private bool JobOfferExists(int id)
-        {
-            return _context.JobOffers.Any(e => e.Id == id);
-        }
     }
 }

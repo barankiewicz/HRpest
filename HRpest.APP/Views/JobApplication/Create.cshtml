@@ -4,6 +4,7 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
     <script>
         $("#jobAppForm").validate();
@@ -13,7 +14,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" id="jobAppForm">
+        <form id="jobAppForm">
             @Html.Hidden("JobOfferId", Model.JobOffer.Id)
             <div asp-validation-summary="None" class="text-danger"></div>
             <div class="form-group">
@@ -27,7 +28,7 @@
                 <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" id="submitBtn"/>
             </div>
         </form>
     </div>

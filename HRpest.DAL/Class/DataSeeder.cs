@@ -123,19 +123,67 @@ namespace HRpest.DAL.Class
                 context.Companies.Add(new BL.Model.Company
                 {
                     CreatedOn = DateTime.Now,
-                    Name = "Google"
+                    EditedOn = DateTime.Now,
+                    Name = "Google",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Warsaw",
+                    NumberOfEmployees = 10000,
+                    YearOfEstablishment = 1980
                 });
 
                 context.Companies.Add(new BL.Model.Company
                 {
                     CreatedOn = DateTime.Now,
-                    Name = "Microsoft"
+                    EditedOn = DateTime.Now,
+                    Name = "Microsoft",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Sillicon Valley",
+                    NumberOfEmployees = 40,
+                    YearOfEstablishment = 1920
+                });
+
+                context.Companies.Add(new BL.Model.Company
+                {
+                    EditedOn = DateTime.Now,
+                    CreatedOn = DateTime.Now,
+                    Name = "Intel",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Boston",
+                    NumberOfEmployees = 1000,
+                    YearOfEstablishment = 2010
                 });
 
                 context.Companies.Add(new BL.Model.Company
                 {
                     CreatedOn = DateTime.Now,
-                    Name = "Intel"
+                    EditedOn = DateTime.Now,
+                    Name = "Apple",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Warsaw",
+                    NumberOfEmployees = 10000,
+                    YearOfEstablishment = 1980
+                });
+
+                context.Companies.Add(new BL.Model.Company
+                {
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    Name = "HP",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Sillicon Valley",
+                    NumberOfEmployees = 40,
+                    YearOfEstablishment = 1980
+                });
+
+                context.Companies.Add(new BL.Model.Company
+                {
+                    EditedOn = DateTime.Now,
+                    CreatedOn = DateTime.Now,
+                    Name = "TescikTescik",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Boston",
+                    NumberOfEmployees = 1000,
+                    YearOfEstablishment = 1980
                 });
             }
         }

@@ -4,14 +4,16 @@ using HRpest.DAL.Class;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRpest.DAL.Migrations
 {
     [DbContext(typeof(HrPestContext))]
-    partial class HrPestContextModelSnapshot : ModelSnapshot
+    [Migration("20191229212734_20192912-AddFieldsToCompanyModel")]
+    partial class _20192912AddFieldsToCompanyModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +34,6 @@ namespace HRpest.DAL.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EditedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
@@ -43,9 +42,6 @@ namespace HRpest.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumberOfEmployees")
-                        .HasColumnType("int");
-
-                    b.Property<int>("YearOfEstablishment")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

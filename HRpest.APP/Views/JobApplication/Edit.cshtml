@@ -5,19 +5,22 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+<script>
+        $("#jobAppForm").validate();
+</script>
 <h1>Edit</h1>
 
 <h4>Application</h4>
 <hr />
 <div class="row">
     <div class="col-sm-12">
-        <form asp-action="Edit">
+        <form asp-action="Edit" id="jobAppForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="CvHandle" class="control-label"></label>
-                <input asp-for="CvHandle" class="form-control" />
+                <input asp-for="CvHandle" class="form-control" minlength="3" required/>
                 <span asp-validation-for="CvHandle" class="text-danger"></span>
             </div>
             <div class="form-group">

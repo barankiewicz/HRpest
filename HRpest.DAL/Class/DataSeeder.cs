@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using HRpest.BL.Helpers;
 
 namespace HRpest.DAL.Class
 {
@@ -45,6 +46,8 @@ namespace HRpest.DAL.Class
             context.SaveChanges();
             AddJobOffers(context);
             context.SaveChanges();
+            AddJobApplications(context);
+            context.SaveChanges();
         }
 
         public static void AddJobOffers(HrPestContext context)
@@ -66,7 +69,7 @@ namespace HRpest.DAL.Class
                     MaximumPay = 10000,
                     MinimumPay = 5000,
                     PositionLevel = BL.Enum.PositionLevel.ENTRY_LEVEL,
-                    PositionName = "Mistrz swiata",
+                    PositionName = "Mistrz swiata 1",
                     RemoteHoursWeekly = 8,
                     UsualTasks = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam"
                 });
@@ -86,7 +89,7 @@ namespace HRpest.DAL.Class
                     MaximumPay = 3000,
                     MinimumPay = 1000,
                     PositionLevel = BL.Enum.PositionLevel.JUNIOR,
-                    PositionName = "Mistrz swiata",
+                    PositionName = "Mistrz swiata 2",
                     RemoteHoursWeekly = 8,
                     UsualTasks = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam"
                 });
@@ -106,7 +109,7 @@ namespace HRpest.DAL.Class
                     MaximumPay = 10000,
                     MinimumPay = 5000,
                     PositionLevel = BL.Enum.PositionLevel.ENTRY_LEVEL,
-                    PositionName = "Mistrz swiata",
+                    PositionName = "Mistrz swiata 3",
                     RemoteHoursWeekly = 8,
                     UsualTasks = "Costam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam CostamCostam Costam"
                 });
@@ -156,6 +159,59 @@ namespace HRpest.DAL.Class
                     Name = "Jane",
                     Surname = "Doe",
                     UserType = BL.Enum.UserType.HR
+                });
+            }
+        }
+
+        public static void AddJobApplications (HrPestContext context)
+        {
+            if (context.JobApplications.Count() <= 1)
+            {
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidhiawd",
+                    Applicant = context.Users.FirstOrDefault(x=>x.Name == "Filip"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
+                    CreatedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x=>x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Filip"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.REJECTED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.REJECTED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 2")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Filip"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 3")
                 });
             }
         }

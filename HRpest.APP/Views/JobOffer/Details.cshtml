@@ -115,7 +115,8 @@
 
                 @Html.AntiForgeryToken()
                 @Html.ActionLink("Apply", "Create", "JobApplication", new { id = Model.Id }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Applications", "Index", "JobApplication", new { id = Model.Id }, new { @class = "btn btn-primary" })
+
+                @Html.ActionLink("Applications", "Index", "JobApplication", new { jobOfferId = Model.Id }, new { @class = "btn btn-primary" })
             </div>
         </div>
     </div>

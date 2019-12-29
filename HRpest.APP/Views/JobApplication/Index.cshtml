@@ -5,24 +5,102 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+
+    var drawTableContents = function drawTableContents(data) {
+        var row;
+        // On success, 'data' contains a list of products.
+        $.each(data, function (key, item) {
+            $("#tbl-body").empty()
+            // Add a list item for the product.
+            row += "<tr><td>" + item.applicant.fullName + "</td><td>" + 
+                   formatDate(item.createdOn) + "</td><td>" + formatDate(item.editedOn) + "</td><td>" +
+                   item.applicationStatusText + "</td><td>" + item.cvHandle + 
+                   "</td><td>" + item.additionalInformation + `</td><td>
+                   <a href="/JobApplication/Edit?id=` + String(item.id) + "\">Edit</a> | " +
+                   `<a href="/JobApplication/Details?id=` + String(item.id) + "\">Details</a> | " +
+                   `<a href="/JobApplication/Delete?id=` + String(item.id)+ "\">Delete</a>" +
+                   `</td></tr>`
+             });
+             $("#tbl-body").append(row);
+    };
+
+    var jobOfferId = getUrlParameter("jobOfferId");
+    var uri = 'GetJobApplications?jobOfferId=' + jobOfferId;
+
+        $(document).ready(function () {
+            // Send an AJAX request
+            $.getJSON(uri)
+                .done(function (data) {
+                    drawTableContents(data);
+                });
+        })
+
+    function formatDate(item) {
+        item = String(item);
+        console.log(item);
+        var str1 = item.replace("T", " ");
+        
+        var str2 = str1.substring(0, 19);
+        console.log(str1);
+        console.log(str2);
+            return str2;
+        }
+
+        function find() {
+            var name = $('#search').val();
+            console.log(name);
+            $.getJSON(uri + '&name=' + name)
+                .done(function (data) {
+                    drawTableContents(data);
+                })
+        }
+</script>
 
 <div class="row page-box">
     <div class="col-sm-12">
         <h2>Job Applications</h2>
-        <table class="table table-striped table-hover">
+
+        <div class="input-group col-md-12" style="margin-bottom: 14px">
+            <input type="text" class="form-control" placeholder="Search by applicant's name..."
+                   name="search" id="search" />
+            <span class="input-group-btn">
+                <button class="btn btn-info" type="submit" onclick="find();">
+                    <img class="glyphicon-search" />
+                </button>
+            </span>
+        </div>
+
+        <table class="table table-striped table-hover" id="tbldata">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Applicant</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">Edited</th>
-                    <th scope="col">Status</th>
+                    <th scope="col" style="min-width: 200px">Applicant</th>
+                    <th scope="col" style="min-width: 200px">Created</th>
+                    <th scope="col" style="min-width: 200px">Edited</th>
+                    <th scope="col" style="min-width: 200px">Status</th>
                     <th scope="col">CV</th>
-                    <th scope="col">Additional information</th>
-                    <th></th>
+                    <th scope="col" style="min-width: 200px">Additional information</th>
+                    <th style="min-width: 200px"></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tbl-body">
+            </tbody>
+            @*<tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -54,7 +132,7 @@
                         </td>
                     </tr>
                 }
-            </tbody>
+            </tbody>*@
         </table>
         @Html.ActionLink("Back to Job Offers", "Index", "JobOffer", null, new { @class = "btn btn-primary" })
     </div>

@@ -27,6 +27,8 @@ namespace HRpest.BL.Model
         
         public ApplicationStatus ApplicationStatus { get; set; }
 
+        public string ApplicationStatusText { get; set; }
+
         public string CvHandle { get; set; }
         public string AdditionalInformation { get; set; }
     }

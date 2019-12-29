@@ -24,18 +24,22 @@
 
     var drawTableContents = function drawTableContents(data) {
         var row;
+        $("#tbl-body").empty()
         // On success, 'data' contains a list of products.
-        $.each(data, function (key, item) {
-            $("#tbl-body").empty()
+        $.each(data.jobApplications, function (key, item) {
             // Add a list item for the product.
+            console.log(item);
             row += "<tr><td>" + item.applicant.fullName + "</td><td>" + 
                    formatDate(item.createdOn) + "</td><td>" + formatDate(item.editedOn) + "</td><td>" +
                    item.applicationStatusText + "</td><td>" + item.cvHandle + 
-                   "</td><td>" + item.additionalInformation + `</td><td>
-                   <a href="/JobApplication/Edit?id=` + String(item.id) + "\">Edit</a> | " +
-                   `<a href="/JobApplication/Details?id=` + String(item.id) + "\">Details</a> | " +
-                   `<a href="/JobApplication/Delete?id=` + String(item.id)+ "\">Delete</a>" +
-                   `</td></tr>`
+                "</td>" + `<td>
+                     <a href="/JobApplication/Edit?id=` + String(item.id) + `\" class="text-primary" style="margin-right: 15px">
+                        <i class="fas fa-edit" title="Edit"></i>
+                     </a> 
+                     <a href="/JobApplication/Details?id=` + String(item.id) + `\" class="text-primary">
+                        <i class="fas fa-info" title="Details"></i>
+                     </a>
+                 </td></tr>`
              });
              $("#tbl-body").append(row);
     };
@@ -44,96 +48,104 @@
     var uri = 'GetJobApplications?jobOfferId=' + jobOfferId;
 
         $(document).ready(function () {
-            // Send an AJAX request
-            $.getJSON(uri)
-                .done(function (data) {
-                    drawTableContents(data);
-                });
+            fetchData(1, 3);
         })
 
     function formatDate(item) {
         item = String(item);
-        console.log(item);
         var str1 = item.replace("T", " ");
         
         var str2 = str1.substring(0, 19);
-        console.log(str1);
-        console.log(str2);
-            return str2;
+        return str2;
         }
 
-        function find() {
-            var name = $('#search').val();
-            console.log(name);
-            $.getJSON(uri + '&name=' + name)
+    function find() {
+        $("#tbl-body").empty();
+        searchString = $('#search').val();
+        fetchData(1, 3, searchString);
+    }
+
+    var currentPage = 1;
+    var searchString = "";
+    function fetchData(pageNo, pageSize = 3, name = undefined) {
+        var properUri = uri + "&pageNo=" + String(pageNo) + "&pageSize=" + String(pageSize);
+        if (name !== undefined) properUri = properUri + "&name=" + String(name);
+            $.getJSON(properUri)
                 .done(function (data) {
+                    currentPage = pageNo;
                     drawTableContents(data);
-                })
+
+                    $('#footer').empty();
+
+                    var totalPage = parseInt(data.totalPage);
+                    var rrow = `<ul class="pagination">`
+                    if (totalPage > 0) {
+                        for (var i = 1; i <= totalPage; i++) {
+                            var additionalClass = (i == currentPage) ? "active" : ""
+                            rrow += `<li class="page-item ` + additionalClass +`"><a class="page-link" onclick='fetchData(` + i + `,` + 3 + `,\"` + searchString + `\");'>` + i + `</a></li>`
+                        }
+                    }
+                    rrow += '</ul>'
+                    $('#footer').append(rrow)
+            });
+
         }
 </script>
 
 <div class="row page-box">
     <div class="col-sm-12">
-        <h2>Job Applications</h2>
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-12 col-md-4 d-flex align-items-center py-2">
+                        <h3 class="font-weight-bold mb-0">
+                            Job Application list
+                        </h3>
+                    </div>
+                    <div class="col-12 col-md-4 py-2">
+                            <div class="input-group search-input"
+                                 style="border-radius: 20px">
+                                <input name="search"
+                                       type="text"
+                                       class="form-control"
+                                       id="search"
+                                       placeholder="Search by offer title.."
+                                       aria-label="Search by offer title"
+                                       aria-describedby="button-search">
+                                <div class="input-group-append">
+                                    <button id="button-search"
+                                            class="btn btn-primary"
+                                            type="submit"
+                                            onclick="find();">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div id="updatePanel">
+                <table class="table table-striped table-hover" id="tbldata">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Applicant</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Edited</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">CV</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbl-body">
+                    </tbody>
+                </table>
+                @Html.ActionLink("Back to Job Offers", "Index", "JobOffer", null, new { @class = "btn btn-primary float-right" })
+                <div class="col-sm-2" id="footer"
 
-        <div class="input-group col-md-12" style="margin-bottom: 14px">
-            <input type="text" class="form-control" placeholder="Search by applicant's name..."
-                   name="search" id="search" />
-            <span class="input-group-btn">
-                <button class="btn btn-info" type="submit" onclick="find();">
-                    <img class="glyphicon-search" />
-                </button>
-            </span>
-        </div>
+                </div>
 
-        <table class="table table-striped table-hover" id="tbldata">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col" style="min-width: 200px">Applicant</th>
-                    <th scope="col" style="min-width: 200px">Created</th>
-                    <th scope="col" style="min-width: 200px">Edited</th>
-                    <th scope="col" style="min-width: 200px">Status</th>
-                    <th scope="col">CV</th>
-                    <th scope="col" style="min-width: 200px">Additional information</th>
-                    <th style="min-width: 200px"></th>
-                </tr>
-            </thead>
-            <tbody id="tbl-body">
-            </tbody>
-            @*<tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Applicant.FullName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreatedOn)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EditedOn)
-                        </td>
-                        <td>
-                            @{
-                                string appStatus = EnumHelper.GetDisplayName(item.ApplicationStatus);
-                            }
-                            @Html.DisplayFor(modelItem => appStatus)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CvHandle)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.AdditionalInformation)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>*@
-        </table>
-        @Html.ActionLink("Back to Job Offers", "Index", "JobOffer", null, new { @class = "btn btn-primary" })
+
+
+
+            </div>
     </div>
-</div>

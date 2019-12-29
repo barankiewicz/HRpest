@@ -174,8 +174,81 @@ namespace HRpest.DAL.Class
                     ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
                     CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
                     CvHandle = "Djwidoawdhjoiwa",
                     JobOffer = context.JobOffers.FirstOrDefault(x=>x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Filip"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
                 });
 
                 context.JobApplications.Add(new BL.Model.JobApplication

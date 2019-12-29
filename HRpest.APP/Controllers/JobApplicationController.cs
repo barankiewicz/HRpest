@@ -143,18 +143,42 @@ namespace HRpest.APP.Controllers
             return View(offer);
         }
 
-        // GET: JobApplication/GetJobApplications?jobOfferId=5
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JobApplication>>> GetJobApplications([FromQuery]int jobOfferId, [FromQuery]string name = null)
+        public JobApplicationPagingViewModel GetJobApplications([FromQuery]int jobOfferId, [FromQuery]string name = null, [FromQuery]int pageNo = 1, [FromQuery]int pageSize = 3)
         {
             if (jobOfferId == 0) return null;
-            var jobapps = await _context.JobApplications.Include(x => x.Applicant).Include(x => x.JobOffer).Where(x => x.JobOffer.Id == jobOfferId).ToListAsync();
+            var jobapps = _context.JobApplications.Include(x => x.Applicant).Include(x => x.JobOffer).Where(x => x.JobOffer.Id == jobOfferId).ToList();
+            if (name != null && name.Trim() != "")
+                jobapps = jobapps.Where(x => x.Applicant.FullName.ToLower().Contains(name.ToLower())).ToList();
 
-            if (name == null)
-                return jobapps;
-            else
-                return Ok(jobapps.Where(x => x.Applicant.FullName.ToLower().Contains(name.ToLower())));
+            int totalPage, totalRecord;
+
+            totalRecord = jobapps.Count();
+            totalPage = (totalRecord / pageSize) + ((totalRecord % pageSize) > 0 ? 1 : 0);
+            var record = jobapps.Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+
+            JobApplicationPagingViewModel empData = new JobApplicationPagingViewModel
+            {
+                JobApplications = record,
+                TotalPage = totalPage
+            };
+
+            return empData;
         }
+
+        // GET: JobApplication/GetJobApplications?jobOfferId=5
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<JobApplication>>> GetJobApplications([FromQuery]int jobOfferId, [FromQuery]string name = null)
+        //{
+        //    if (jobOfferId == 0) return null;
+        //    var jobapps = await _context.JobApplications.Include(x => x.Applicant).Include(x => x.JobOffer).Where(x => x.JobOffer.Id == jobOfferId).ToListAsync();
+
+        //    if (name == null)
+        //        return jobapps;
+        //    else
+        //        return Ok(jobapps.Where(x => x.Applicant.FullName.ToLower().Contains(name.ToLower())));
+        //}
 
         // GET: JobApplication/GetJobApplication/5
         [HttpGet("{id}")]

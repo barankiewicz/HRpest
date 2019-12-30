@@ -1,0 +1,157 @@
+﻿@model IEnumerable<HRpest.BL.Model.Company>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+
+    var drawTableContents = function drawTableContents(data) {
+        var row;
+        $("#tbl-body").empty()
+        // On success, 'data' contains a list of products.
+        $.each(data.companies, function (key, item) {
+            // Add a list item for the product.
+            console.log(item);
+            row += "<tr><td>" + item.name + "</td><td>" +
+                   formatDate(item.createdOn) + "</td><td>" + formatDate(item.editedOn) + "</td><td>" +
+                   item.location + "</td><td>" + item.numberOfEmployees +
+                "</td>" + `<td>
+                     <a href="/Company/Edit?id=` + String(item.id) + `\" class="text-primary" style="margin-right: 15px">
+                        <i class="fas fa-edit" title="Edit"></i>
+                     </a>
+                     <a href="/Company/Details?id=` + String(item.id) + `\" class="text-primary">
+                        <i class="fas fa-info" title="Details"></i>
+                     </a>
+                 </td></tr>`
+             });
+             $("#tbl-body").append(row);
+    };
+
+    var uri = 'GetCompanies';
+
+        $(document).ready(function () {
+            fetchData(1, 3);
+        })
+
+    function formatDate(item) {
+        item = String(item);
+        var str1 = item.replace("T", " ");
+
+        var str2 = str1.substring(0, 19);
+        return str2;
+        }
+
+    function find() {
+        $("#tbl-body").empty();
+        searchString = $('#search').val();
+        fetchData(1, 3, searchString);
+    }
+
+    var currentPage = 1;
+    var searchString = "";
+    function fetchData(pageNo, pageSize = 3, name = undefined) {
+        var properUri = uri + "?pageNo=" + String(pageNo) + "&pageSize=" + String(pageSize);
+        if (name !== undefined) properUri = properUri + "&name=" + String(name);
+            $.getJSON(properUri)
+                .done(function (data) {
+                    currentPage = pageNo;
+                    drawTableContents(data);
+
+                    $('#footer').empty();
+
+                    var totalPage = parseInt(data.totalPage);
+                    var rrow = `<ul class="pagination">`
+                    if (totalPage > 0) {
+                        for (var i = 1; i <= totalPage; i++) {
+                            var additionalClass = (i == currentPage) ? "active" : ""
+                            rrow += `<li class="page-item ` + additionalClass +`"><a class="page-link" onclick='fetchData(` + i + `,` + 3 + `,\"` + searchString + `\");'>` + i + `</a></li>`
+                        }
+                    }
+                    rrow += '</ul>'
+                    $('#footer').append(rrow)
+            });
+
+        }
+</script>
+
+<div class="row page-box">
+    <div class="col-sm-12">
+        <div class="table-title">
+            <div class="row">
+                <div class="col-12 col-md-4 d-flex align-items-center py-2">
+                    <h3 class="font-weight-bold mb-0">
+                        Companies list
+                    </h3>
+                </div>
+                <div class="col-12 col-md-4 py-2">
+                    <div class="input-group search-input"
+                         style="border-radius: 20px">
+                        <input name="search"
+                               type="text"
+                               class="form-control"
+                               id="search"
+                               placeholder="Search by company name.."
+                               aria-label="Search by company name"
+                               aria-describedby="button-search">
+                        <div class="input-group-append">
+                            <button id="button-search"
+                                    class="btn btn-primary"
+                                    type="submit"
+                                    onclick="find();">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 text-right py-2">
+                    <a href="@Url.Action("Create", "Company")">
+                        <button class="btn btn-rounded btn-outline-primary"
+                                data-toggle="modal">
+                            <i class="fa fa-plus pr-3"></i>
+                            Add Company
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="updatePanel">
+            <table class="table table-striped table-hover" id="tbldata">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Edited</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">NumberOfEmployees</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbl-body">
+                </tbody>
+            </table>
+            @Html.ActionLink("Back to Home", "Index", "Home", null, new { @class = "btn btn-primary float-right" })
+            <div class="col-sm-2" id="footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

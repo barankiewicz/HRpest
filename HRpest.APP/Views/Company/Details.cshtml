@@ -1,4 +1,4 @@
-﻿@model HRpest.BL.Model.JobApplication
+﻿@model HRpest.BL.Model.Company
 
 @{
     ViewData["Title"] = "Details";
@@ -7,44 +7,36 @@
 
 <div class="row page-box">
     <div class="col-sm-8">
-        <h1><b>Application details</b></h1>
+        <h1><b>Company details</b></h1>
         <br /><br />
     </div>
 </div>
 <div class="row page-box">
     <div class="col-sm-8">
 
-            <h3><b>Additional information</b></h3>
-            <div class="offer-description" id="previewMarkdown" style="word-wrap: break-word">
-                @Model.AdditionalInformation
-            </div>
-            <br /> <br />
+        <h3><b>Description</b></h3>
+        <div class="offer-description text-wrap" id="previewMarkdown" style="word-wrap: break-word">
+            @Model.Description
+        </div>
+        <br /> <br />
     </div>
     <div class="col-sm-4">
         <div class="offer-details">
             <div>
-                <label><b>Applicant:</b></label>
-                <span>@Model.Applicant.FullName</span>
-            </div>
-            <div>
-                <label><b>Position:</b></label>
-                <span>@Model.JobOffer.PositionName</span>
-            </div>
-            <div>
-                <label><b>Company:</b></label>
-                <span>@Model.JobOffer.CreatedFor.Name</span>
+                <label><b>Name:</b></label>
+                <span>@Model.Name</span>
             </div>
             <div>
                 <label><b>Location:</b></label>
-                <span>@Model.JobOffer.Location</span>
+                <span>@Model.Location</span>
             </div>
             <div>
-                <label><b>Status:</b></label>
-                <span>@EnumHelper.GetDisplayName(Model.ApplicationStatus)</span>
+                <label><b>Number of Employees:</b></label>
+                <span>@Model.NumberOfEmployees</span>
             </div>
             <div>
-                <label><b>CV:</b></label>
-                <span>@Model.CvHandle</span>
+                <label><b>Established in:</b></label>
+                <span>@Model.YearOfEstablishment</span>
             </div>
 
             <br />
@@ -69,7 +61,7 @@
             </div>
         </div>
     </div>
-    @Html.ActionLink("Go back to Job Offers", "Index", "JobOffer", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Go back to Companies", "Index", "Company", null, new { @class = "btn btn-primary" })
 </div>
 
 
@@ -78,7 +70,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Delete Employee</h5>
+                <h5 class="modal-title">Delete Company</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

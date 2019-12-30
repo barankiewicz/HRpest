@@ -123,19 +123,85 @@ namespace HRpest.DAL.Class
                 context.Companies.Add(new BL.Model.Company
                 {
                     CreatedOn = DateTime.Now,
-                    Name = "Google"
+                    EditedOn = DateTime.Now,
+                    Name = "Google",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Warsaw",
+                    NumberOfEmployees = 10000,
+                    YearOfEstablishment = 1980,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.UOD,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
                 });
 
                 context.Companies.Add(new BL.Model.Company
                 {
                     CreatedOn = DateTime.Now,
-                    Name = "Microsoft"
+                    EditedOn = DateTime.Now,
+                    Name = "Microsoft",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Sillicon Valley",
+                    NumberOfEmployees = 40,
+                    YearOfEstablishment = 1920,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.UOD,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
+                });
+
+                context.Companies.Add(new BL.Model.Company
+                {
+                    EditedOn = DateTime.Now,
+                    CreatedOn = DateTime.Now,
+                    Name = "Intel",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Boston",
+                    NumberOfEmployees = 1000,
+                    YearOfEstablishment = 2010,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.UOP,
+                    DefaultNumberOfHoursWeekly = 20,
+                    DefaultNumberOfRemoteHoursWeekly = 19
                 });
 
                 context.Companies.Add(new BL.Model.Company
                 {
                     CreatedOn = DateTime.Now,
-                    Name = "Intel"
+                    EditedOn = DateTime.Now,
+                    Name = "Apple",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Warsaw",
+                    NumberOfEmployees = 10000,
+                    YearOfEstablishment = 1980,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.UOZ,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
+                });
+
+                context.Companies.Add(new BL.Model.Company
+                {
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    Name = "HP",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Sillicon Valley",
+                    NumberOfEmployees = 40,
+                    YearOfEstablishment = 1980,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.OTHER,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
+                });
+
+                context.Companies.Add(new BL.Model.Company
+                {
+                    EditedOn = DateTime.Now,
+                    CreatedOn = DateTime.Now,
+                    Name = "TescikTescik",
+                    Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
+                    Location = "Boston",
+                    NumberOfEmployees = 1000,
+                    YearOfEstablishment = 1980,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.B2B,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
                 });
             }
         }
@@ -174,8 +240,81 @@ namespace HRpest.DAL.Class
                     ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
                     CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
                     CvHandle = "Djwidoawdhjoiwa",
                     JobOffer = context.JobOffers.FirstOrDefault(x=>x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Filip"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
+                });
+
+                context.JobApplications.Add(new BL.Model.JobApplication
+                {
+                    AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
+                    ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
+                    CreatedOn = DateTime.Now,
+                    EditedOn = DateTime.Now,
+                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
                 });
 
                 context.JobApplications.Add(new BL.Model.JobApplication

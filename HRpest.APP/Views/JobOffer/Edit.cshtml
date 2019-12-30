@@ -5,14 +5,17 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
+<script>
+        $("#jobOfferForm").validate();
+</script>
 <h1>Edit</h1>
 
 <h4>Job Offer</h4>
 <hr />
 <div class="row">
     <div class="col-sm-12">
-        <form asp-action="Edit" asp-route-extra="id">
+        <form asp-action="Edit" asp-route-extra="id" id="jobOfferForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group" hidden>
@@ -20,53 +23,69 @@
             </div>
             <div class="form-group">
                 <label asp-for="ActiveUntil" class="control-label"></label>
-                <input asp-for="ActiveUntil" class="form-control" />
+                <input asp-for="ActiveUntil" class="form-control" required />
                 <span asp-validation-for="ActiveUntil" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
+                <input asp-for="Location" class="form-control" minlength="2" required />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="EmploymentType" class="control-label"></label>
-                <select asp-for="EmploymentType" asp-items="Html.GetEnumSelectList<EmploymentType>()" class="form-control"></select>
+                <select asp-for="EmploymentType" asp-items="Html.GetEnumSelectList<EmploymentType>()" class="form-control" required></select>
                 <span asp-validation-for="EmploymentType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PositionLevel" class="control-label"></label>
-                <select asp-for="PositionLevel" asp-items="Html.GetEnumSelectList<PositionLevel>()" class="form-control"></select>
+                <select asp-for="PositionLevel" asp-items="Html.GetEnumSelectList<PositionLevel>()" class="form-control" required></select>
                 <span asp-validation-for="PositionLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HoursWeekly" class="control-label"></label>
-                <input asp-for="HoursWeekly" class="form-control" />
+                <input asp-for="HoursWeekly" class="form-control" digits min="1" max="80" required />
                 <span asp-validation-for="HoursWeekly" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RemoteHoursWeekly" class="control-label"></label>
-                <input asp-for="RemoteHoursWeekly" class="form-control" />
+                <input asp-for="RemoteHoursWeekly" class="form-control" digits min="0" max="80" />
                 <span asp-validation-for="RemoteHoursWeekly" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MinimumPay" class="control-label"></label>
-                <input asp-for="MinimumPay" class="form-control" />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="salary1">PLN</span>
+                    </div>
+                    <input asp-for="MinimumPay" class="form-control" placeholder="From" digits min="0" max="2000000" required />
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
                 <span asp-validation-for="MinimumPay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MaximumPay" class="control-label"></label>
-                <input asp-for="MaximumPay" class="form-control" />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="salary1">PLN</span>
+                    </div>
+                    <input asp-for="MaximumPay" class="form-control" placeholder="From" digits min="0" max="2000000" />
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
                 <span asp-validation-for="MaximumPay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PositionName" class="control-label"></label>
-                <input asp-for="PositionName" class="form-control" />
+                <input asp-for="PositionName" class="form-control" minlength="5" required/>
                 <span asp-validation-for="PositionName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="JobDescription" class="control-label"></label>
-                <input asp-for="JobDescription" class="form-control" />
+                <input asp-for="JobDescription" class="form-control" minlength="100" required/>
                 <span asp-validation-for="JobDescription" class="text-danger"></span>
             </div>
             <div class="form-group">

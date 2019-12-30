@@ -5,6 +5,8 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
 
 <h1>Create</h1>
 
@@ -12,41 +14,41 @@
 <hr />
 <div class="row">
     <div class="col-sm-12">
-        <form asp-action="Create">
+        <form asp-action="Create" id="jobOfferForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ActiveUntil" class="control-label"></label>
-                <input asp-for="ActiveUntil" class="form-control" />
+                <input asp-for="ActiveUntil" class="form-control" required/>
                 <span asp-validation-for="ActiveUntil" class="text-danger"></span>
             </div>
             <div class="form-group">
-            <label asp-for="CompanyName" class="control-label"></label>
-            <select asp-for="CompanyName" asp-items="@Model.Companies.Select(x=>new SelectListItem() {Text = x.Name, Value = x.Name})" class="form-control"></select>
-            <span asp-validation-for="CompanyName" class="text-danger"></span>
+                <label asp-for="CompanyName" class="control-label"></label>
+                <select asp-for="CompanyName" asp-items="@Model.Companies.Select(x=>new SelectListItem() {Text = x.Name, Value = x.Id.ToString()})" onchange="selectChangeHandler(this);" class="form-control" required></select>
+                <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
+                <input asp-for="Location" class="form-control" minlength="2" required data-bind="textInput: location"/>
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EmploymentType" class="control-label"></label>
-                <select asp-for="EmploymentType" asp-items="Html.GetEnumSelectList<EmploymentType>()" class="form-control"></select>
+                <select asp-for="EmploymentType" asp-items="Html.GetEnumSelectList<EmploymentType>()" class="form-control" data-bind="value: defaultEmploymentType" required></select>
                 <span asp-validation-for="EmploymentType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PositionLevel" class="control-label"></label>
-                <select asp-for="PositionLevel" asp-items="Html.GetEnumSelectList<PositionLevel>()" class="form-control"></select>
+                <select asp-for="PositionLevel" asp-items="Html.GetEnumSelectList<PositionLevel>()" class="form-control" required></select>
                 <span asp-validation-for="PositionLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HoursWeekly" class="control-label"></label>
-                <input asp-for="HoursWeekly" class="form-control" />
+                <input asp-for="HoursWeekly" class="form-control" digits min="1" max="80" required data-bind="textInput: defaultNumberOfHoursWeekly"/>
                 <span asp-validation-for="HoursWeekly" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="RemoteHoursWeekly" class="control-label"></label>
-                <input asp-for="RemoteHoursWeekly" class="form-control" />
+                <input asp-for="RemoteHoursWeekly" class="form-control" digits min="0" max="80" data-bind="textInput: defaultNumberOfRemoteHoursWeekly"/>
                 <span asp-validation-for="RemoteHoursWeekly" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -55,7 +57,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="salary1">PLN</span>
                     </div>
-                    @Html.EditorFor(m => m.MinimumPay, new { htmlAttributes = new { @class = "form-control", placeholder = "From" } })
+                    <input asp-for="MinimumPay" class="form-control" placeholder="From" digits min="0" max="2000000" required/>
                     <div class="input-group-append">
                         <span class="input-group-text">.00</span>
                     </div>
@@ -68,7 +70,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="salary1">PLN</span>
                     </div>
-                    @Html.EditorFor(m => m.MaximumPay, new { htmlAttributes = new { @class = "form-control", placeholder = "From" } })
+                    <input asp-for="MaximumPay" class="form-control" placeholder = "From" digits min="0" max="2000000" />
                     <div class="input-group-append">
                         <span class="input-group-text">.00</span>
                     </div>
@@ -77,12 +79,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="PositionName" class="control-label"></label>
-                <input asp-for="PositionName" class="form-control" />
+                <input asp-for="PositionName" class="form-control" minlength="5" required/>
                 <span asp-validation-for="PositionName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="JobDescription" class="control-label"></label>
-                <textarea asp-for="JobDescription" class="form-control"></textarea>
+                <textarea asp-for="JobDescription" class="form-control" minlength="100" required></textarea>
                 <span asp-validation-for="JobDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -114,3 +116,33 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+   var companyViewModel = {
+       location: ko.observable(''),
+       defaultNumberOfHoursWeekly: ko.observable(''),
+       defaultNumberOfRemoteHoursWeekly: ko.observable(''),
+       defaultEmploymentType: ko.observable(''),
+    }
+    ko.applyBindings(companyViewModel);
+    
+    var AppPath = '@Url.Action("GetCompany", "Company")';
+
+    $(document).ready(function () {
+        $('#CompanyName').append('<option value="" disabled selected hidden>Choose your company</option>');
+    });
+
+    function selectChangeHandler(sel) {
+        $.getJSON(AppPath + "/" + String(sel.value))
+            .done(function (data) {
+                companyViewModel.location(data.location);
+                companyViewModel.defaultNumberOfHoursWeekly(String(data.defaultNumberOfHoursWeekly));
+                companyViewModel.defaultNumberOfRemoteHoursWeekly(String(data.defaultNumberOfRemoteHoursWeekly));
+                companyViewModel.defaultEmploymentType(String(data.defaultEmploymentType));
+            });
+    }
+
+    
+    $("#jobOfferForm").validate();
+
+</script>

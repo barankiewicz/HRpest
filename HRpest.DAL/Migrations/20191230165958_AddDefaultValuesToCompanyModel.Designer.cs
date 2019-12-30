@@ -4,14 +4,16 @@ using HRpest.DAL.Class;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HRpest.DAL.Migrations
 {
     [DbContext(typeof(HrPestContext))]
-    partial class HrPestContextModelSnapshot : ModelSnapshot
+    [Migration("20191230165958_AddDefaultValuesToCompanyModel")]
+    partial class AddDefaultValuesToCompanyModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

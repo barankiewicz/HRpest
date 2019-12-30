@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HRpest.BL.Model;
 using HRpest.DAL.Class;
 using Microsoft.AspNetCore.Authorization;
+using HRpest.BL.Helpers;
 
 namespace HRpest.APP.Controllers
 {
@@ -24,15 +25,12 @@ namespace HRpest.APP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([FromQuery(Name = "search")] string searchString)
+        public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(searchString))
-                return View(await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x => x.Applicant).ToListAsync());
-
-            List<JobApplication> searchResult = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x=>x.Applicant).Where(o => o.Applicant.Name.Contains(searchString)).ToListAsync();
-            return View(searchResult);
+            return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -62,6 +60,7 @@ namespace HRpest.APP.Controllers
             application.CvHandle = model.CvHandle;
             application.AdditionalInformation = model.AdditionalInformation;
             application.ApplicationStatus = model.ApplicationStatus;
+            application.ApplicationStatusText = EnumHelper.GetDisplayName(model.ApplicationStatus);
             application.EditedOn = DateTime.Now;
 
             _context.Update(application);
@@ -69,6 +68,7 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Details", new { id = model.Id });
         }
 
+        [HttpPost]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -81,6 +81,7 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public async Task<ActionResult> Create(int? id)
         {
             if (id == null)
@@ -137,23 +138,35 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
             var offer = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x=>x.CreatedFor).Include(x => x.Applicant).FirstOrDefaultAsync(x => x.Id == id);
             return View(offer);
         }
 
-        // GET: JobApplication/GetJobApplications?jobOfferId=5
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<JobApplication>>> GetJobApplications([FromQuery]int jobOfferId, [FromQuery]string name = null)
+        public JobApplicationPagingViewModel GetJobApplications([FromQuery]int jobOfferId, [FromQuery]string name = null, [FromQuery]int pageNo = 1, [FromQuery]int pageSize = 3)
         {
             if (jobOfferId == 0) return null;
-            var jobapps = await _context.JobApplications.Include(x => x.Applicant).Include(x => x.JobOffer).Where(x => x.JobOffer.Id == jobOfferId).ToListAsync();
+            var jobapps = _context.JobApplications.Include(x => x.Applicant).Include(x => x.JobOffer).Where(x => x.JobOffer.Id == jobOfferId).ToList();
+            if (name != null && name.Trim() != "")
+                jobapps = jobapps.Where(x => x.Applicant.FullName.ToLower().Contains(name.ToLower())).ToList();
 
-            if (name == null)
-                return jobapps;
-            else
-                return Ok(jobapps.Where(x => x.Applicant.FullName.ToLower().Contains(name.ToLower())));
+            int totalPage, totalRecord;
+
+            totalRecord = jobapps.Count();
+            totalPage = (totalRecord / pageSize) + ((totalRecord % pageSize) > 0 ? 1 : 0);
+            var record = jobapps.Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+
+            JobApplicationPagingViewModel empData = new JobApplicationPagingViewModel
+            {
+                JobApplications = record,
+                TotalPage = totalPage
+            };
+
+            return empData;
         }
 
         // GET: JobApplication/GetJobApplication/5
@@ -170,9 +183,35 @@ namespace HRpest.APP.Controllers
             return Ok(jobApplication);
         }
 
-        private bool JobApplicationExists(int id)
+        [HttpPost]
+        public async Task<ActionResult<JobApplication>> PostJobApplication(JobApplicationCreateView jobApplication)
         {
-            return _context.JobApplications.Any(e => e.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Name == "Filip");
+            var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == jobApplication.JobOfferId);
+
+            if (offer == null)
+            {
+                return NotFound($"offer not found in DB");
+            }
+
+            JobApplication ja = new JobApplication
+            {
+                AdditionalInformation = jobApplication.AdditionalInformation,
+                Applicant = user,
+                ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
+                ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
+                CreatedOn = DateTime.Now,
+                CvHandle = jobApplication.CvHandle,
+                DeletedOn = null,
+                EditedOn = DateTime.Now,
+                JobOffer = offer
+            };
+
+            await _context.JobApplications.AddAsync(ja);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetJobApplication", new { id = jobApplication.Id }, jobApplication);
         }
+
     }
 }

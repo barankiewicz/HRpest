@@ -128,7 +128,10 @@ namespace HRpest.DAL.Class
                     Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
                     Location = "Warsaw",
                     NumberOfEmployees = 10000,
-                    YearOfEstablishment = 1980
+                    YearOfEstablishment = 1980,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.UOD,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
                 });
 
                 context.Companies.Add(new BL.Model.Company
@@ -139,7 +142,10 @@ namespace HRpest.DAL.Class
                     Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
                     Location = "Sillicon Valley",
                     NumberOfEmployees = 40,
-                    YearOfEstablishment = 1920
+                    YearOfEstablishment = 1920,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.UOD,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
                 });
 
                 context.Companies.Add(new BL.Model.Company
@@ -150,7 +156,10 @@ namespace HRpest.DAL.Class
                     Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
                     Location = "Boston",
                     NumberOfEmployees = 1000,
-                    YearOfEstablishment = 2010
+                    YearOfEstablishment = 2010,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.UOP,
+                    DefaultNumberOfHoursWeekly = 20,
+                    DefaultNumberOfRemoteHoursWeekly = 19
                 });
 
                 context.Companies.Add(new BL.Model.Company
@@ -161,7 +170,10 @@ namespace HRpest.DAL.Class
                     Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
                     Location = "Warsaw",
                     NumberOfEmployees = 10000,
-                    YearOfEstablishment = 1980
+                    YearOfEstablishment = 1980,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.UOZ,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
                 });
 
                 context.Companies.Add(new BL.Model.Company
@@ -172,7 +184,10 @@ namespace HRpest.DAL.Class
                     Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
                     Location = "Sillicon Valley",
                     NumberOfEmployees = 40,
-                    YearOfEstablishment = 1980
+                    YearOfEstablishment = 1980,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.OTHER,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
                 });
 
                 context.Companies.Add(new BL.Model.Company
@@ -183,7 +198,10 @@ namespace HRpest.DAL.Class
                     Description = "DNWIJDIAWHIUDHWAIUHDIUAWHIDHUIAWYDHIUWAIUHDIUAWHDIUIWAUHDIUWAHDIUAWIHDIUHWAIHUDAW",
                     Location = "Boston",
                     NumberOfEmployees = 1000,
-                    YearOfEstablishment = 1980
+                    YearOfEstablishment = 1980,
+                    DefaultEmploymentType = BL.Enum.EmploymentType.B2B,
+                    DefaultNumberOfHoursWeekly = 40,
+                    DefaultNumberOfRemoteHoursWeekly = 20
                 });
             }
         }

@@ -63,6 +63,9 @@ namespace HRpest.APP.Controllers
             company.Description = model.Description;
             company.Location = model.Location;
             company.EditedOn = DateTime.Now;
+            company.DefaultNumberOfRemoteHoursWeekly = model.DefaultNumberOfRemoteHoursWeekly;
+            company.DefaultNumberOfHoursWeekly = model.DefaultNumberOfHoursWeekly;
+            company.DefaultEmploymentType = model.DefaultEmploymentType;
 
             _context.Update(company);
             await _context.SaveChangesAsync();
@@ -108,6 +111,9 @@ namespace HRpest.APP.Controllers
                 NumberOfEmployees = model.NumberOfEmployees,
                 CreatedOn = DateTime.Now,
                 EditedOn = DateTime.Now,
+                DefaultEmploymentType = model.DefaultEmploymentType,
+                DefaultNumberOfHoursWeekly = model.DefaultNumberOfHoursWeekly,
+                DefaultNumberOfRemoteHoursWeekly = model.DefaultNumberOfRemoteHoursWeekly
             };
 
             await _context.Companies.AddAsync(ja);

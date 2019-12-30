@@ -166,5 +166,28 @@ namespace HRpest.APP.Controllers
 
             return company;
         }
+
+        [HttpPost]
+        public async Task<ActionResult<JobApplication>> PostCompany(Company company)
+        {
+
+            Company ja = new Company
+            {
+                Description = company.Description,
+                Location = company.Location,
+                Name = company.Name,
+                NumberOfEmployees = company.NumberOfEmployees,
+                CreatedOn = DateTime.Now,
+                EditedOn = DateTime.Now,
+                DefaultEmploymentType = company.DefaultEmploymentType,
+                DefaultNumberOfHoursWeekly = company.DefaultNumberOfHoursWeekly,
+                DefaultNumberOfRemoteHoursWeekly = company.DefaultNumberOfRemoteHoursWeekly
+            };
+
+            await _context.Companies.AddAsync(ja);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCompany", new { id = company.Id }, company);
+        }
     }
 }

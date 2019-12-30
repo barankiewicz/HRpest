@@ -43,7 +43,6 @@
 <script>
 
 function objectifyForm(formArray) {//serialize data function
-  console.log(formArray);
   var returnArray = {};
     for (var i = 0; i < formArray.length; i++){
         if (returnArray[formArray[i]['name']] === 'JobOfferId') {
@@ -91,9 +90,5 @@ function objectifyForm(formArray) {//serialize data function
         });
 
     });
-
-                //    "CvHandle": dataToPost.CvHandle,
-                //"AdditionalInformation": dataToPost.AdditionalInformation,
-                //"JobOfferId": parseFloat(dataTopost.JobOfferId)
 </script>
 

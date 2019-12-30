@@ -7,7 +7,7 @@
 }
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.min.js"></script>
 <script>
-    $("#jobAppForm").validate();
+    
 </script>
 
 <h1>Create</h1>
@@ -16,7 +16,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" id="jobAppForm">
+        <form id="companyForm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -72,3 +72,58 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $("#companyForm").validate();
+function objectifyForm(formArray) {//serialize data function
+  var returnArray = {};
+    for (var i = 0; i < formArray.length; i++){
+            returnArray[formArray[i]['name']] = formArray[i]['value'];
+  }
+  return returnArray;
+}
+
+    var AppPath = '@Url.Action("PostCompany", "Company")';
+    $("#companyForm").validate();
+    $("#companyForm").submit(function(e) {
+
+        //prevent Default functionality
+        e.preventDefault();
+
+        //get the action-url of the form
+        var actionurl = e.currentTarget.action;
+
+        var dataToPost = objectifyForm($("#companyForm").serializeArray());
+
+        console.log(dataToPost);
+
+        var postData = JSON.stringify({
+            "Name": dataToPost.Name,
+            "Location": dataToPost.Location,
+            "Description": dataToPost.Description,
+            "NumberOfEmployees": parseInt(dataToPost.NumberOfEmployees),
+            "YearOfEstablishment": parseInt(dataToPost.YearOfEstablishment),
+            "DefaultNumberOfHoursWeekly": parseInt(dataToPost.DefaultNumberOfHoursWeekly),
+            "DefaultNumberOfRemoteHoursWeekly": parseInt(dataToPost.DefaultNumberOfRemoteHoursWeekly),
+            "DefaultEmploymentType": parseInt(dataToPost.DefaultEmploymentType)
+
+        });
+
+        //do your own request an handle the results
+        $.ajax({
+                url: AppPath,
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: postData,
+            success: function (data) {
+                console.log(data);
+                window.location.replace("Index");
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+        });
+
+    });
+</script>

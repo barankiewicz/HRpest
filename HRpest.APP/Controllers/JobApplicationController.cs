@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HRpest.BL.Model;
 using HRpest.DAL.Class;
 using Microsoft.AspNetCore.Authorization;
+using HRpest.BL.Helpers;
 
 namespace HRpest.APP.Controllers
 {
@@ -24,13 +25,9 @@ namespace HRpest.APP.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([FromQuery(Name = "search")] string searchString)
+        public async Task<IActionResult> Index()
         {
-            if (string.IsNullOrEmpty(searchString))
-                return View(await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x => x.Applicant).ToListAsync());
-
-            List<JobApplication> searchResult = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x=>x.Applicant).Where(o => o.Applicant.Name.Contains(searchString)).ToListAsync();
-            return View(searchResult);
+            return View();
         }
 
         [HttpGet]
@@ -63,6 +60,7 @@ namespace HRpest.APP.Controllers
             application.CvHandle = model.CvHandle;
             application.AdditionalInformation = model.AdditionalInformation;
             application.ApplicationStatus = model.ApplicationStatus;
+            application.ApplicationStatusText = EnumHelper.GetDisplayName(model.ApplicationStatus);
             application.EditedOn = DateTime.Now;
 
             _context.Update(application);
@@ -183,6 +181,36 @@ namespace HRpest.APP.Controllers
             }
 
             return Ok(jobApplication);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<JobApplication>> PostJobApplication(JobApplicationCreateView jobApplication)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Name == "Filip");
+            var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == jobApplication.JobOfferId);
+
+            if (offer == null)
+            {
+                return NotFound($"offer not found in DB");
+            }
+
+            JobApplication ja = new JobApplication
+            {
+                AdditionalInformation = jobApplication.AdditionalInformation,
+                Applicant = user,
+                ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
+                ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
+                CreatedOn = DateTime.Now,
+                CvHandle = jobApplication.CvHandle,
+                DeletedOn = null,
+                EditedOn = DateTime.Now,
+                JobOffer = offer
+            };
+
+            await _context.JobApplications.AddAsync(ja);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetJobApplication", new { id = jobApplication.Id }, jobApplication);
         }
 
     }

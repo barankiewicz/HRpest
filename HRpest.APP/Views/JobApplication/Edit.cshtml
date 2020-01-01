@@ -21,17 +21,14 @@
             <div class="form-group">
                 <label asp-for="CvHandle" class="control-label"></label>
                 <input asp-for="CvHandle" class="form-control" minlength="3" required/>
-                <span asp-validation-for="CvHandle" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AdditionalInformation" class="control-label"></label>
                 <input asp-for="AdditionalInformation" class="form-control" />
-                <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ApplicationStatus" class="control-label"></label>
                 <select asp-for="ApplicationStatus" asp-items="Html.GetEnumSelectList<ApplicationStatus>()" class="form-control"></select>
-                <span asp-validation-for="ApplicationStatus" class="text-danger"></span>
             </div>
 
             <div class="form-group">

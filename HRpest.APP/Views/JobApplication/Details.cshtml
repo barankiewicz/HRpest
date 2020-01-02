@@ -43,8 +43,17 @@
                 <span>@EnumHelper.GetDisplayName(Model.ApplicationStatus)</span>
             </div>
             <div>
-                <label><b>CV:</b></label>
-                <span>@Model.CvHandle</span>
+                <span>
+                    <div class="col-sm-8 text-right py-2">
+                        <a href="@Model.CvHandle">
+                            <button class="btn btn-rounded btn-outline-primary"
+                                    data-toggle="modal">
+                                <i class="fa fa-download pr-3"></i>
+                                Download CV
+                            </button>
+                        </a>
+                    </div>
+                </span>
             </div>
 
             <br />

@@ -87,7 +87,9 @@ namespace HRpest.APP.Controllers
             {
                 return BadRequest($"id should not be null");
             }
+            var toDelete = _context.JobApplications.Where(x => x.JobOffer.Id == id).ToList();
 
+            _context.JobApplications.RemoveRange(toDelete);
             _context.JobOffers.Remove(new JobOffer() { Id = id.Value });
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");

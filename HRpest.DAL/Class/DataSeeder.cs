@@ -241,7 +241,7 @@ namespace HRpest.DAL.Class
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
                     CreatedOn = DateTime.Now,
                     EditedOn = DateTime.Now,
-                    CvHandle = "Djwidoawdhjoiwa",
+                    CvHandle = "https://hrpest.blob.core.windows.net/uploads/2020-01-02/20200102T130412548.docx",
                     JobOffer = context.JobOffers.FirstOrDefault(x=>x.PositionName == "Mistrz swiata 1")
                 });
 
@@ -253,7 +253,7 @@ namespace HRpest.DAL.Class
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
                     CreatedOn = DateTime.Now,
                     EditedOn = DateTime.Now,
-                    CvHandle = "Djwidoawdwadwadawdawdawdawdhjoiwa",
+                    CvHandle = "https://hrpest.blob.core.windows.net/uploads/2020-01-02/20200102T130412548.docx",
                     JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
                 });
 
@@ -265,7 +265,7 @@ namespace HRpest.DAL.Class
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
                     CreatedOn = DateTime.Now,
                     EditedOn = DateTime.Now,
-                    CvHandle = "Djwidoawdhjoiwa",
+                    CvHandle = "https://hrpest.blob.core.windows.net/uploads/2020-01-02/20200102T130412548.docx",
                     JobOffer = context.JobOffers.FirstOrDefault(x => x.PositionName == "Mistrz swiata 1")
                 });
 

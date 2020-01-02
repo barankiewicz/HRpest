@@ -12,17 +12,17 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form id="jobAppForm">
+        <form asp-action="Create" id="jobAppForm" enctype="multipart/form-data">
             @Html.Hidden("JobOfferId", Model.JobOffer.Id)
             <div asp-validation-summary="None" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CvHandle" class="control-label"></label>
-                <input asp-for="CvHandle" class="form-control" minlength="3" required />
-                <span asp-validation-for="CvHandle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="AdditionalInformation" class="control-label"></label>
                 <input asp-for="AdditionalInformation" class="form-control" />
+                <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CvFile" class="control-label"></label>
+                @Html.TextBoxFor(m => m.CvFile, new { type = "file" })
                 <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -41,54 +41,6 @@
 }
 
 <script>
-
-function objectifyForm(formArray) {//serialize data function
-  var returnArray = {};
-    for (var i = 0; i < formArray.length; i++){
-        if (returnArray[formArray[i]['name']] === 'JobOfferId') {
-            returnArray[formArray[i]['name']] = parseInt(formArray[i]['value']);
-        } else {
-            returnArray[formArray[i]['name']] = formArray[i]['value'];
-        }
-    
-  }
-  return returnArray;
-}
-
-    var AppPath = '@Url.Action("PostJobApplication", "JobApplication")';
     $("#jobAppForm").validate();
-    $("#jobAppForm").submit(function(e) {
-
-        //prevent Default functionality
-        e.preventDefault();
-
-        //get the action-url of the form
-        var actionurl = e.currentTarget.action;
-        
-        var dataToPost = objectifyForm($("#jobAppForm").serializeArray());
-
-        var postData = JSON.stringify({
-                "CvHandle": dataToPost.CvHandle,
-                "AdditionalInformation": dataToPost.AdditionalInformation,
-                "JobOfferId": parseInt(dataToPost.JobOfferId)
-        });
-
-        //do your own request an handle the results
-        $.ajax({
-                url: AppPath,
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json",
-                data: postData,
-            success: function (data) {
-                console.log(data);
-                window.location.replace("Index?jobOfferId=" + dataToPost.JobOfferId);
-                },
-                error: function(e) {
-                    console.log(e);
-                }
-        });
-
-    });
 </script>
 

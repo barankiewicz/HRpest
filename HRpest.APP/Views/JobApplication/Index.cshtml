@@ -28,11 +28,20 @@
         // On success, 'data' contains a list of products.
         $.each(data.jobApplications, function (key, item) {
             // Add a list item for the product.
-            console.log(item);
+            
             row += "<tr><td>" + item.applicant.fullName + "</td><td>" + 
                    formatDate(item.createdOn) + "</td><td>" + formatDate(item.editedOn) + "</td><td>" +
-                   item.applicationStatusText + "</td><td>" + item.cvHandle + 
-                "</td>" + `<td>
+                   item.applicationStatusText + "</td>" + `
+                    <td>
+                        <a href="`+ item.cvHandle + `">
+                            <button class="btn btn-rounded btn-outline-primary"
+                                    data-toggle="modal">
+                                <i class="fa fa-download pr-3"></i>
+                                Download CV
+                            </button>
+                        </a>
+                    </td>
+                    <td>
                      <a href="/JobApplication/Edit?id=` + String(item.id) + `\" class="text-primary" style="margin-right: 15px">
                         <i class="fas fa-edit" title="Edit"></i>
                      </a> 

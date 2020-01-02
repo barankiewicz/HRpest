@@ -9,6 +9,9 @@ using HRpest.BL.Model;
 using HRpest.DAL.Class;
 using Microsoft.AspNetCore.Authorization;
 using HRpest.BL.Helpers;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using HRpest.APP.Helpers;
 
 namespace HRpest.APP.Controllers
 {
@@ -18,10 +21,13 @@ namespace HRpest.APP.Controllers
     public class JobApplicationController : Controller
     {
         private readonly HrPestContext _context;
+        IWebHostEnvironment env;
 
-        public JobApplicationController(HrPestContext context)
+        public JobApplicationController(HrPestContext context, IWebHostEnvironment _env)
         {
             _context = context;
+            env = _env;
+
         }
 
         [HttpGet]
@@ -43,12 +49,25 @@ namespace HRpest.APP.Controllers
                 return NotFound($"offer not found in DB");
             }
 
-            return View(application);
+            return View(new JobApplicationCreateView()
+            {
+                AdditionalInformation = application.AdditionalInformation,
+                Applicant = application.Applicant,
+                ApplicationStatus = application.ApplicationStatus,
+                ApplicationStatusText = application.ApplicationStatusText,
+                CreatedOn = application.CreatedOn,
+                CvHandle = application.CvHandle,
+                DeletedOn = application.DeletedOn,
+                EditedOn = application.EditedOn,
+                Id = application.Id,
+                JobOffer = application.JobOffer,
+                JobOfferId = application.JobOffer.Id
+            });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([FromForm]JobApplication model)
+        public async Task<ActionResult> Edit([FromForm]JobApplicationCreateView model)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +76,10 @@ namespace HRpest.APP.Controllers
 
             var application = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x => x.Applicant).FirstOrDefaultAsync(x => x.Id == model.Id);
 
-            application.CvHandle = model.CvHandle;
+            if(model.CvFile != null)
+                DeleteCvFromStorage(application.CvHandle);
+
+            application.CvHandle = UploadCvToStorage(model);
             application.AdditionalInformation = model.AdditionalInformation;
             application.ApplicationStatus = model.ApplicationStatus;
             application.ApplicationStatusText = EnumHelper.GetDisplayName(model.ApplicationStatus);
@@ -75,6 +97,10 @@ namespace HRpest.APP.Controllers
             {
                 return BadRequest($"id should not be null");
             }
+
+            var application = await _context.JobApplications.FirstOrDefaultAsync(x => x.Id == id);
+
+            DeleteCvFromStorage(application.CvHandle);
 
             _context.JobApplications.Remove(new JobApplication() { Id = id.Value });
             await _context.SaveChangesAsync();
@@ -126,8 +152,9 @@ namespace HRpest.APP.Controllers
                 AdditionalInformation = model.AdditionalInformation,
                 Applicant = user,
                 ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
+                ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
                 CreatedOn = DateTime.Now,
-                CvHandle = model.CvHandle,
+                CvHandle = UploadCvToStorage(model),
                 DeletedOn = null,
                 EditedOn = DateTime.Now,
                 JobOffer = offer
@@ -135,7 +162,7 @@ namespace HRpest.APP.Controllers
 
             await _context.JobApplications.AddAsync(ja);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "JobApplication", new { jobOfferId = offer.Id });
         }
 
         [HttpGet]
@@ -184,11 +211,12 @@ namespace HRpest.APP.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<JobApplication>> PostJobApplication(JobApplicationCreateView jobApplication)
+        public async Task<ActionResult<JobApplication>> PostJobApplication([Bind("CvFile")] JobApplicationCreateView jobApplication)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Name == "Filip");
             var offer = await _context.JobOffers.Include(x => x.CreatedFor).FirstOrDefaultAsync(x => x.Id == jobApplication.JobOfferId);
 
+            var files = HttpContext.Request.Form.Files;
             if (offer == null)
             {
                 return NotFound($"offer not found in DB");
@@ -201,7 +229,7 @@ namespace HRpest.APP.Controllers
                 ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
                 ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
                 CreatedOn = DateTime.Now,
-                CvHandle = jobApplication.CvHandle,
+                CvHandle = UploadCvToStorage(jobApplication),
                 DeletedOn = null,
                 EditedOn = DateTime.Now,
                 JobOffer = offer
@@ -211,6 +239,34 @@ namespace HRpest.APP.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetJobApplication", new { id = jobApplication.Id }, jobApplication);
+        }
+
+        private string UploadCvToStorage(JobApplicationCreateView model)
+        {
+            var uploads = Path.Combine(env.WebRootPath, "uploads");
+            bool exists = Directory.Exists(uploads);
+            if (!exists)
+                Directory.CreateDirectory(uploads);
+
+            var fileName = Path.GetFileName(model.CvFile.FileName);
+            var fileStream = new FileStream(Path.Combine(uploads, model.CvFile.FileName), FileMode.Create);
+            string mimeType = model.CvFile.ContentType;
+            byte[] fileData = new byte[model.CvFile.Length];
+
+            BlobStorageHelper objBlobService = new BlobStorageHelper();
+
+            return objBlobService.UploadFileToBlob(model.CvFile.FileName, fileData, mimeType);
+        }
+
+        private void DeleteCvFromStorage(string uri)
+        {
+            if(uri != null && uri != "")
+            {
+                BlobStorageHelper objBlobService = new BlobStorageHelper();
+                objBlobService.DeleteBlobData(uri);
+            }
+
+            return;
         }
 
     }

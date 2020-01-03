@@ -1,3 +1,4 @@
+using HRpest.APP.Helpers;
 using HRpest.DAL.Class;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
@@ -28,6 +29,10 @@ namespace HRpest.APP
                 .AddAzureADB2C(options => Configuration.Bind("AzureAdB2C", options));
 
             services.AddControllersWithViews();
+
+            services.AddSingleton(Configuration);
+
+            AppConfiguration.SetConfiguration(Configuration);
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>

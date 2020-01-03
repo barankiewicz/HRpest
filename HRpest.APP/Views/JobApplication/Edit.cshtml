@@ -1,5 +1,5 @@
 ﻿@using HRpest.BL.Enum
-@model HRpest.BL.Model.JobApplication
+@model HRpest.BL.Model.JobApplicationCreateView
 
 @{
     ViewData["Title"] = "Edit";
@@ -15,17 +15,17 @@
 <hr />
 <div class="row">
     <div class="col-sm-12">
-        <form asp-action="Edit" id="jobAppForm">
+        <form asp-action="Edit" id="jobAppForm" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="CvHandle" class="control-label"></label>
-                <input asp-for="CvHandle" class="form-control" minlength="3" required/>
-                <span asp-validation-for="CvHandle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="AdditionalInformation" class="control-label"></label>
                 <input asp-for="AdditionalInformation" class="form-control" />
+                <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CvFile" class="control-label"></label>
+                @Html.TextBoxFor(m => m.CvFile, new { type = "file" })
                 <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
             </div>
             <div class="form-group">

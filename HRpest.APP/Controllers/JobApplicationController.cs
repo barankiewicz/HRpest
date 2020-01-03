@@ -9,6 +9,7 @@ using HRpest.BL.Model;
 using HRpest.DAL.Class;
 using Microsoft.AspNetCore.Authorization;
 using HRpest.BL.Helpers;
+using SendGrid;
 
 namespace HRpest.APP.Controllers
 {
@@ -65,6 +66,8 @@ namespace HRpest.APP.Controllers
 
             _context.Update(application);
             await _context.SaveChangesAsync();
+
+           
             return RedirectToAction("Details", new { id = model.Id });
         }
 

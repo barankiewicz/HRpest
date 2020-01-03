@@ -90,7 +90,7 @@ namespace HRpest.APP.Controllers
             return RedirectToAction("Details", new { id = model.Id });
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -98,13 +98,15 @@ namespace HRpest.APP.Controllers
                 return BadRequest($"id should not be null");
             }
 
-            var application = await _context.JobApplications.FirstOrDefaultAsync(x => x.Id == id);
+            var application = await _context.JobApplications.Include(x=>x.JobOffer).FirstOrDefaultAsync(x => x.Id == id);
+
+            var jobOfferId = application.JobOffer.Id;
 
             DeleteCvFromStorage(application.CvHandle);
 
-            _context.JobApplications.Remove(new JobApplication() { Id = id.Value });
+            _context.JobApplications.Remove(application);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "JobApplication", new { jobOfferId = jobOfferId });
         }
 
         [HttpGet]

@@ -1,3 +1,4 @@
+using HRpest.APP.Helpers;
 using HRpest.DAL.Class;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
@@ -29,6 +30,10 @@ namespace HRpest.APP
 
             services.AddControllersWithViews();
 
+            services.AddSingleton(Configuration);
+
+            AppConfiguration.SetConfiguration(Configuration);
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -38,6 +43,7 @@ namespace HRpest.APP
             services.AddDbContext<HrPestContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
             services.AddRazorPages();
+            services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -329,3 +329,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /HRpest.DAL/Class/DataSeeder.cs
+/HRpest.APP/wwwroot/uploads

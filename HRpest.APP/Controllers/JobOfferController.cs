@@ -17,7 +17,7 @@ namespace HRpest.APP.Controllers
 {
     [Route("[controller]/[Action]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class JobOfferController : Controller
     {
         private readonly HrPestContext _context;

@@ -11,7 +11,9 @@ namespace HRpest.DAL.Class
 {
     public class HrPestContext : DbContext
     {
-        public HrPestContext(DbContextOptions<HrPestContext> options) : base(options) { }
+        public HrPestContext(DbContextOptions<HrPestContext> options) : base(options) 
+        {
+        }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<JobOffer> JobOffers { get; set; }
         public virtual DbSet<JobApplication> JobApplications { get; set; }
@@ -29,4 +31,6 @@ namespace HRpest.DAL.Class
             return new HrPestContext(builder.Options);
         }
     }
+
+
 }

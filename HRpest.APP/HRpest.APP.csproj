@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\admin\source\repos\HRpest\HRpest.APP\HRpestXML.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\spankielore-PC\source\repos\HRpest\HRpest.APP\HRpestXML.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\spankielore-PC\source\repos\HRpest\HRpest.APP\HRpestXML.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

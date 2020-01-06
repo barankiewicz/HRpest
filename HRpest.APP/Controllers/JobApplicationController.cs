@@ -13,6 +13,10 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using HRpest.APP.Helpers;
 using SendGrid;
+using SendGrid.Helpers.Mail;
+using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations;
+using HRpest.BL.Enum;
 
 namespace HRpest.APP.Controllers
 {
@@ -22,13 +26,24 @@ namespace HRpest.APP.Controllers
     public class JobApplicationController : Controller
     {
         private readonly HrPestContext _context;
-        IWebHostEnvironment env;
+        private readonly IWebHostEnvironment env;
+        private readonly IConfiguration _configuration;
 
-        public JobApplicationController(HrPestContext context, IWebHostEnvironment _env)
+        private enum EmailType
+        {
+            [Display(Name = "created")]
+            CREATED,
+            [Display(Name = "edited")]
+            EDITED,
+            [Display(Name = "deleted")]
+            DELETED
+        };
+
+        public JobApplicationController(HrPestContext context, IWebHostEnvironment _env, IConfiguration conf)
         {
             _context = context;
             env = _env;
-
+            _configuration = conf;
         }
 
         [HttpGet]
@@ -78,18 +93,21 @@ namespace HRpest.APP.Controllers
             var application = await _context.JobApplications.Include(x => x.JobOffer).ThenInclude(x => x.CreatedFor).Include(x => x.Applicant).FirstOrDefaultAsync(x => x.Id == model.Id);
 
             if(model.CvFile != null)
+            {
                 DeleteCvFromStorage(application.CvHandle);
-
-            application.CvHandle = UploadCvToStorage(model);
+                application.CvHandle = UploadCvToStorage(model);
+            }
+            
             application.AdditionalInformation = model.AdditionalInformation;
             application.ApplicationStatus = model.ApplicationStatus;
             application.ApplicationStatusText = EnumHelper.GetDisplayName(model.ApplicationStatus);
             application.EditedOn = DateTime.Now;
 
+            await SendApprovedEmail(model.ApplicationStatus, application);
+
             _context.Update(application);
             await _context.SaveChangesAsync();
 
-           
             return RedirectToAction("Details", new { id = model.Id });
         }
 
@@ -106,6 +124,7 @@ namespace HRpest.APP.Controllers
             var jobOfferId = application.JobOffer.Id;
 
             DeleteCvFromStorage(application.CvHandle);
+            await PostMessage(EmailType.DELETED, application);
 
             _context.JobApplications.Remove(application);
             await _context.SaveChangesAsync();
@@ -162,11 +181,15 @@ namespace HRpest.APP.Controllers
                 CvHandle = UploadCvToStorage(model),
                 DeletedOn = null,
                 EditedOn = DateTime.Now,
-                JobOffer = offer
-            };
+                JobOffer = offer,
+                ApplicantEmail = User.Claims.Where(c => c.Type == "emails").Select(c => c.Value).SingleOrDefault()
+        };
 
             await _context.JobApplications.AddAsync(ja);
             await _context.SaveChangesAsync();
+            await PostMessage(EmailType.CREATED, ja);
+
+            await PostMessageForCreator(ja);
             return RedirectToAction("Index", "JobApplication", new { jobOfferId = offer.Id });
         }
 
@@ -272,6 +295,50 @@ namespace HRpest.APP.Controllers
             }
 
             return;
+        }
+
+        private async Task PostMessage(EmailType type, JobApplication jo)
+        {
+            var mail = User.Claims.Where(c => c.Type == "emails")
+                   .Select(c => c.Value).SingleOrDefault();
+            var apiKey = _configuration.GetSection("SendGridApiKey").Value;
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("mail@hrpest.com", "HRpest");
+            var to = new EmailAddress(mail, User.Identity.Name);
+
+
+            var subject = "You " + EnumHelper.GetDisplayName(type) + " a Job Application!";
+            var htmlContent = "<strong>You " + EnumHelper.GetDisplayName(type) + " a Job Application for: <br/> " + jo.JobOffer.PositionName + "<br/>on " + DateTime.Now.ToString() + "</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
+            var response = await client.SendEmailAsync(msg);
+        }
+
+        private async Task PostMessageForCreator(JobApplication ja)
+        {
+            var apiKey = _configuration.GetSection("SendGridApiKey").Value;
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("mail@hrpest.com", "HRpest");
+            var to = new EmailAddress(ja.JobOffer.CreatedByEmail, ja.JobOffer.CreatedByEmail);
+
+
+            var subject = "A new Job Application for your Job Offer was created!";
+            var htmlContent = "<strong>A new Job Application was created for Job Offer: <br/> " + ja.JobOffer.PositionName + "<br/>on " + DateTime.Now.ToString() + "</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
+            var response = await client.SendEmailAsync(msg);
+        }
+
+        private async Task SendApprovedEmail(ApplicationStatus type, JobApplication ja)
+        {
+            var apiKey = _configuration.GetSection("SendGridApiKey").Value;
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("mail@hrpest.com", "HRpest");
+            var to = new EmailAddress(ja.ApplicantEmail, ja.ApplicantEmail);
+
+
+            var subject = "Your application was " + EnumHelper.GetDisplayName(type) + "!";
+            var htmlContent = "<strong>Your Job Application for: <br/> " + ja.JobOffer.PositionName + "<br/>was " + EnumHelper.GetDisplayName(type) + " on " + DateTime.Now.ToString() + "</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
 
     }

@@ -25,6 +25,7 @@ namespace HRpest.BL.Model
 
         
         public User Applicant { get; set; }
+        public string ApplicantEmail { get; set; }
 
         public JobOffer JobOffer { get; set; }
 

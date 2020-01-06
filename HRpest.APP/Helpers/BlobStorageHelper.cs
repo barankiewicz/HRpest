@@ -13,7 +13,6 @@ namespace HRpest.APP.Helpers
         public BlobStorageHelper()
         {
             this.accessKey = AppConfiguration.GetConfiguration("StorageAccessKey");
-
         }
 
         public string UploadFileToBlob(string strFileName, byte[] fileData, string fileMimeType)
@@ -52,15 +51,17 @@ namespace HRpest.APP.Helpers
         }
 
 
-        private string GenerateFileName(string fileName)
+        public string GenerateFileName(string fileName)
         {
             string strFileName = string.Empty;
             string[] strName = fileName.Split('.');
+
+            if (strName.Length == 1) return null;
             strFileName = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd") + "/" + DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssfff") + strName[0] + "." + strName[strName.Length - 1];
             return strFileName;
         }
 
-        private async Task<string> UploadFileToBlobAsync(string strFileName, byte[] fileData, string fileMimeType)
+        public async Task<string> UploadFileToBlobAsync(string strFileName, byte[] fileData, string fileMimeType)
         {
             try
             {

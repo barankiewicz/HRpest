@@ -10,7 +10,7 @@ using Xunit;
 
 namespace HRpest.Integration
 {
-    public class JobApplicationControllerTest : IntegrationTest
+    public class CompanyControllerTests : IntegrationTest
     {
         [Fact]
         public async Task Index_ShouldNotBeEmpty()
@@ -18,7 +18,7 @@ namespace HRpest.Integration
             //Arrange
 
             //Act
-            var response = await TestClient.GetAsync("JobApplication/Index");
+            var response = await TestClient.GetAsync("Company/Index");
 
             //Assert
             (await response.Content.ReadAsStringAsync()).Should().NotBeEmpty();
@@ -30,23 +30,10 @@ namespace HRpest.Integration
             //Arrange
 
             //Act
-            var response = await TestClient.GetAsync("JobApplication/GetJobApplications?jobOfferId=1");
+            var response = await TestClient.GetAsync("Company/GetCompanies");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-
-        [Fact]
-        public async Task GetJobApplications_ShouldBeEmpty()
-        {
-            //Arrange
-
-            //Act
-            var response = await TestClient.GetAsync("JobApplication/GetJobApplications?jobOfferId=0");
-
-            //Assert
-            response.StatusCode.Should().NotBe(HttpStatusCode.OK);
-            (await response.Content.ReadAsStringAsync()).Should().BeEmpty();
         }
 
         [Fact]
@@ -55,7 +42,7 @@ namespace HRpest.Integration
             //Arrange
 
             //Act
-            var response = await TestClient.GetAsync("JobApplication/GetJobApplication?id=1");
+            var response = await TestClient.GetAsync("Company/GetCompany?id=1");
 
             //Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);

@@ -41,7 +41,7 @@
             <br /> <br />
         }
 
-        @if (Model.JobRequirements.Length != 0)
+        @if (Model.JobRequirements != null && Model.JobRequirements.Length != 0)
         {
             <h3><b>Requirements</b></h3>
             <div class="offer-description" id="previewMarkdown" style="word-wrap: break-word">
@@ -49,7 +49,7 @@
             </div>
             <br /> <br />
         }
-        @if (Model.UsualTasks.Length != 0)
+        @if (Model.UsualTasks != null && Model.UsualTasks.Length != 0)
         {
             <h3><b>Usual tasks</b></h3>
             <div class="offer-description" id="previewMarkdown" style="word-wrap: break-word">
@@ -57,7 +57,7 @@
             </div>
             <br /> <br />
         }
-        @if (Model.JobBenefits.Length != 0)
+        @if (Model.JobBenefits != null && Model.JobBenefits.Length != 0)
         {
             <h3><b>Benefits</b></h3>
             <div class="offer-description" id="previewMarkdown" style="word-wrap: break-word">

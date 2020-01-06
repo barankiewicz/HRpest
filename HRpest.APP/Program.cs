@@ -18,7 +18,7 @@ namespace HRpest.APP
                 try
                 {
                     var context = services.GetRequiredService<HrPestContext>();
-                    DataSeeder.DeleteEverything(context);
+                    //DataSeeder.DeleteEverything(context);
                     DataSeeder.AddEverything(context);
                 }
                 catch (Exception)

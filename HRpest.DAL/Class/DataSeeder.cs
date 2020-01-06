@@ -57,6 +57,7 @@ namespace HRpest.DAL.Class
                 context.JobOffers.Add(new BL.Model.JobOffer
                 {
                     CreatedBy = context.Users.Where(u=>u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
+                    CreatedByEmail = "spankie1337@gmail.com",
                     CreatedOn = DateTime.Now,
                     CreatedFor = context.Companies.Where(x=> x.Name == "Google").FirstOrDefault(),
                     Location = "Warsaw",
@@ -78,6 +79,7 @@ namespace HRpest.DAL.Class
                 {
                     CreatedBy = context.Users.Where(u => u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
                     CreatedOn = DateTime.Now.AddDays(-3),
+                    CreatedByEmail = "spankie1337@gmail.com",
                     EmploymentType = BL.Enum.EmploymentType.B2B,
                     ActiveUntil = DateTime.Now.AddDays(-1),
                     HoursWeekly = 40,
@@ -98,6 +100,7 @@ namespace HRpest.DAL.Class
                 {
                     CreatedBy = context.Users.Where(u => u.UserType == BL.Enum.UserType.HR).FirstOrDefault(),
                     CreatedOn = DateTime.Now,
+                    CreatedByEmail = "spankie1337@gmail.com",
                     EmploymentType = BL.Enum.EmploymentType.B2B,
                     ActiveUntil = DateTime.Now.AddDays(120),
                     HoursWeekly = 120,
@@ -241,6 +244,7 @@ namespace HRpest.DAL.Class
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
                     CreatedOn = DateTime.Now,
                     EditedOn = DateTime.Now,
+                    ApplicantEmail = "spankie1337@gmail.com",
                     CvHandle = "https://hrpest.blob.core.windows.net/uploads/2020-01-02/20200102T130412548.docx",
                     JobOffer = context.JobOffers.FirstOrDefault(x=>x.PositionName == "Mistrz swiata 1")
                 });
@@ -250,6 +254,7 @@ namespace HRpest.DAL.Class
                     AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
+                    ApplicantEmail = "spankie1337@gmail.com",
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
                     CreatedOn = DateTime.Now,
                     EditedOn = DateTime.Now,
@@ -260,6 +265,7 @@ namespace HRpest.DAL.Class
                 context.JobApplications.Add(new BL.Model.JobApplication
                 {
                     AdditionalInformation = "dhwudahwidhiawd",
+                    ApplicantEmail = "spankie1337@gmail.com",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Filip"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.NO_DECISION_MADE,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.NO_DECISION_MADE),
@@ -272,6 +278,7 @@ namespace HRpest.DAL.Class
                 context.JobApplications.Add(new BL.Model.JobApplication
                 {
                     AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    ApplicantEmail = "spankie1337@gmail.com",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
@@ -284,6 +291,7 @@ namespace HRpest.DAL.Class
                 context.JobApplications.Add(new BL.Model.JobApplication
                 {
                     AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    ApplicantEmail = "spankie1337@gmail.com",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
@@ -296,6 +304,7 @@ namespace HRpest.DAL.Class
                 context.JobApplications.Add(new BL.Model.JobApplication
                 {
                     AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    ApplicantEmail = "spankie1337@gmail.com",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
@@ -308,6 +317,7 @@ namespace HRpest.DAL.Class
                 context.JobApplications.Add(new BL.Model.JobApplication
                 {
                     AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    ApplicantEmail = "spankie1337@gmail.com",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
@@ -320,6 +330,7 @@ namespace HRpest.DAL.Class
                 context.JobApplications.Add(new BL.Model.JobApplication
                 {
                     AdditionalInformation = "dhwudahwidwadwadawdawddhiawd",
+                    ApplicantEmail = "spankie1337@gmail.com",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Jane"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),
@@ -332,6 +343,7 @@ namespace HRpest.DAL.Class
                 context.JobApplications.Add(new BL.Model.JobApplication
                 {
                     AdditionalInformation = "dhwudahwidhiawd",
+                    ApplicantEmail = "spankie1337@gmail.com",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Filip"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.REJECTED,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.REJECTED),
@@ -344,6 +356,7 @@ namespace HRpest.DAL.Class
                 context.JobApplications.Add(new BL.Model.JobApplication
                 {
                     AdditionalInformation = "dhwudahwidhiawd",
+                    ApplicantEmail = "spankie1337@gmail.com",
                     Applicant = context.Users.FirstOrDefault(x => x.Name == "Filip"),
                     ApplicationStatus = BL.Enum.ApplicationStatus.APPROVED,
                     ApplicationStatusText = EnumHelper.GetDisplayName(BL.Enum.ApplicationStatus.APPROVED),

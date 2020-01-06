@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
+                <textarea asp-for="Description" class="form-control" minlength="100" maxlength="1000"></textarea>
             </div>
             <div class="form-group">
                 <label asp-for="DefaultNumberOfHoursWeekly" class="control-label"></label>
@@ -76,7 +76,7 @@ function objectifyForm(formArray) {//serialize data function
 }
 
     var AppPath = '@Url.Action("PostCompany", "Company")';
-    $("#companyForm").validate();
+    
     $("#companyForm").submit(function(e) {
 
         //prevent Default functionality
@@ -86,8 +86,6 @@ function objectifyForm(formArray) {//serialize data function
         var actionurl = e.currentTarget.action;
 
         var dataToPost = objectifyForm($("#companyForm").serializeArray());
-
-        console.log(dataToPost);
 
         var postData = JSON.stringify({
             "Name": dataToPost.Name,
@@ -109,7 +107,6 @@ function objectifyForm(formArray) {//serialize data function
                 contentType: "application/json",
                 data: postData,
             success: function (data) {
-                console.log(data);
                 window.location.replace("Index");
                 },
                 error: function(e) {
@@ -118,4 +115,6 @@ function objectifyForm(formArray) {//serialize data function
         });
 
     });
+
+    $("#companyForm").validate();
 </script>

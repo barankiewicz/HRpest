@@ -25,6 +25,8 @@ namespace HRpest.BL.Model
         [Display(Name = "Created By")]
         public User? CreatedBy { get; set; }
 
+        public string CreatedByEmail { get; set; }
+
         public Company? CreatedFor { get; set; }
         [Display(Name = "Employment Type")]
         [Required]

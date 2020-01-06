@@ -39,6 +39,8 @@ namespace UITests
             _driver = driver;
             _driver.Navigate()
                 .GoToUrl("https://localhost:5001/JobOffer/Create");
+
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             CompanyNameSelect = new SelectElement(CompanyNameElement);
         }
 

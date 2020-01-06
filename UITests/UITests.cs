@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using Xunit;
 
@@ -13,7 +14,6 @@ namespace UITests
         {
             _driver = new ChromeDriver();
             _page = new JobOfferPage(_driver);
-            _page.Navigate();
         }
 
         public void Dispose()
@@ -56,11 +56,14 @@ namespace UITests
         [Fact]
         public void Create_ChoosingACompany_PopulatesForm()
         {
+            SelectElement CompanyNameSelect = new SelectElement(_driver.FindElement(By.Id("CompanyName")));
             _page.CompanyNameSelect.SelectByText("Google");
 
-            Assert.Equal("Warsaw", _page.LocationElement.Text);
-            Assert.Equal("40", _page.HoursWeeklyElement.Text);
-            Assert.Equal("20", _page.RemoteHoursWeeklyElement.Text);
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+            wait.Until(ExpectedConditions.TextToBePresentInElementValue(_page.LocationElement, "Warsaw"));
+            Assert.Equal("Warsaw", _page.LocationElement.GetAttribute("value"));
+            Assert.Equal("40", _page.HoursWeeklyElement.GetAttribute("value"));
+            Assert.Equal("20", _page.RemoteHoursWeeklyElement.GetAttribute("value"));
         }
     }
 }

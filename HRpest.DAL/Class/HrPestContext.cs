@@ -11,6 +11,10 @@ namespace HRpest.DAL.Class
 {
     public class HrPestContext : DbContext
     {
+        public HrPestContext()
+        {
+        }
+
         public HrPestContext(DbContextOptions<HrPestContext> options) : base(options) 
         {
         }

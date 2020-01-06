@@ -7,6 +7,11 @@ using HRpest.BL.Model;
 using HRpest.DAL.Class;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using Microsoft.Extensions.Configuration;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.ComponentModel.DataAnnotations;
+using HRpest.BL.Helpers;
 
 namespace HRpest.APP.Controllers
 {
@@ -16,10 +21,22 @@ namespace HRpest.APP.Controllers
     public class JobOfferController : Controller
     {
         private readonly HrPestContext _context;
+        private readonly IConfiguration _configuration;
 
-        public JobOfferController(HrPestContext context)
+        private enum EmailType
+        {
+            [Display(Name = "created")]
+            CREATED,
+            [Display(Name = "edited")]
+            EDITED,
+            [Display(Name = "deleted")]
+            DELETED
+        };
+
+        public JobOfferController(HrPestContext context, IConfiguration conf)
         {
             _context = context;
+            _configuration = conf;
         }
 
         [HttpGet]
@@ -77,6 +94,7 @@ namespace HRpest.APP.Controllers
             offer.EditedOn = DateTime.Now;
             _context.Update(offer);
             await _context.SaveChangesAsync();
+            await PostMessage(EmailType.EDITED, offer);
             return RedirectToAction("Details", new { id = model.Id });
         }
 
@@ -90,7 +108,9 @@ namespace HRpest.APP.Controllers
             var toDelete = _context.JobApplications.Where(x => x.JobOffer.Id == id).ToList();
 
             _context.JobApplications.RemoveRange(toDelete);
-            _context.JobOffers.Remove(new JobOffer() { Id = id.Value });
+            var jo = _context.JobOffers.Include(x=>x.CreatedFor).FirstOrDefault(x => x.Id == id.Value);
+            await PostMessage(EmailType.DELETED, jo);
+            _context.JobOffers.Remove(jo);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
@@ -119,7 +139,8 @@ namespace HRpest.APP.Controllers
             JobOffer jo = new JobOffer
             {
                 ActiveUntil = model.ActiveUntil,
-                CreatedFor = _context.Companies.FirstOrDefault(x => x.Name == model.CompanyName),
+                CreatedFor = _context.Companies.FirstOrDefault(x => x.Id == Int32.Parse(model.CompanyName)),
+                CreatedByEmail = User.Claims.Where(c => c.Type == "emails").Select(c => c.Value).SingleOrDefault(),
                 CreatedBy = model.CreatedBy,
                 CreatedOn = DateTime.Now,
                 EditedOn = DateTime.Now,
@@ -139,6 +160,9 @@ namespace HRpest.APP.Controllers
 
             await _context.JobOffers.AddAsync(jo);
             await _context.SaveChangesAsync();
+
+            await PostMessage(EmailType.CREATED, jo);
+
             return RedirectToAction("Index");
         }
 
@@ -149,5 +173,20 @@ namespace HRpest.APP.Controllers
             return View(offer);
         }
 
+        private async Task PostMessage(EmailType type, JobOffer jo)
+        {
+            var mail = User.Claims.Where(c => c.Type == "emails")
+                   .Select(c => c.Value).SingleOrDefault();
+            var apiKey = _configuration.GetSection("SendGridApiKey").Value;
+            var client = new SendGridClient(apiKey);
+            var from = new EmailAddress("mail@hrpest.com", "HRpest");
+            var to = new EmailAddress(mail, User.Identity.Name);
+
+
+            var subject = "You " + EnumHelper.GetDisplayName(type) + " a Job Offer!";
+            var htmlContent = "<strong>You "+ EnumHelper.GetDisplayName(type) + " a Job Offer: <br/> " + jo.PositionName + " at " + jo.CreatedFor.Name + "<br/>on " + DateTime.Now.ToString() + "</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
+            var response = await client.SendEmailAsync(msg);
+        }
     }
 }

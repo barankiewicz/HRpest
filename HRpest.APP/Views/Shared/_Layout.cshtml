@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,6 +13,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
 
+    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
     <header>

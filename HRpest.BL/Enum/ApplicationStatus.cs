@@ -10,9 +10,9 @@ namespace HRpest.BL.Enum
     {
         [Display(Name = "No decision made yet")]
         NO_DECISION_MADE,
-        [Display(Name = "Application approved!")]
+        [Display(Name = "Approved")]
         APPROVED,
-        [Display(Name = "Application denied :(")]
+        [Display(Name = "Denied :(")]
         REJECTED
     }
 }

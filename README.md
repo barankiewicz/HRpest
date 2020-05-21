@@ -34,22 +34,22 @@ As mentioned before, the goal of the project was to give us a taste of the profe
 # Business requirements
 
 ## Requirements
-• HTML Interface generated using Razor
-• Ability to submit CV file with a data form for user
-• Ability to manage all data for administrator
-• Ability to attach file (stored in Azure Blob)
-• Candidate data needs to be stored in database (using Azure SQL Server)
-• Candidates data need to be presented for HR team
-• HR team need to receive email notification about new candidate (using Azure SendGrid)
+- HTML Interface generated using Razor
+- Ability to submit CV file with a data form for user
+- Ability to manage all data for administrator
+- Ability to attach file (stored in Azure Blob)
+- Candidate data needs to be stored in database (using Azure SQL Server)
+- Candidates data need to be presented for HR team
+- HR team need to receive email notification about new candidate (using Azure SendGrid)
 
 ## Architecture:
-· User opens a website which is stored on Azure Web App
-· List of the job offers is loaded asynchronously via API using AJAX
-· Data isstored in Azure SQL Server database
-· Communication between Web App and SQL done using Entity Framework
-· Files are stored in Azure Blob storage
-· User Authentication is done with Azure AD B2C
-· HR email notification is done via Azure SendGrid
+- User opens a website which is stored on Azure Web App
+- List of the job offers is loaded asynchronously via API using AJAX
+- Data isstored in Azure SQL Server database
+- Communication between Web App and SQL done using Entity Framework
+- Files are stored in Azure Blob storage
+- User Authentication is done with Azure AD B2C
+- HR email notification is done via Azure SendGrid
 ![](https://i.imgur.com/2pyqnAM.png)
 
 ## Roles:
